@@ -21,7 +21,8 @@ labels = df.columns[1:]
 
 # plotting
 # set seaborn style
-sns.set_theme()
+# sns.set_theme()
+
 fig = plt.figure(figsize=(6.5, 3))
 ax = plt.subplot(111)
 # ax.margins(x=0)
@@ -65,7 +66,7 @@ for i, year in enumerate(df['Year']):
 
 
 # Put a legend
-legend = plt.legend(frameon = 1)
+legend = plt.legend(frameon=1)
 frame = legend.get_frame()
 plt.legend(facecolor='white', framealpha=0)
 frame.set_edgecolor('red')
@@ -78,5 +79,7 @@ ax.legend(loc='upper center', bbox_to_anchor=(box.width + 0.44, 1),
           fancybox=False, shadow=False, ncol=1)
 
 ax.set_ylabel(r"GHG Emissions (GT Co2 eq/yr) ")
-
+# ax.set_xticks(df['Year'][::10])
+# ax.set_yticks(list(range(80))[::10])
+[t.set_color('red') for t in ax.yaxis.get_ticklines()]
 plt.show()
