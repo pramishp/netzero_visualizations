@@ -3,3 +3,6 @@ pandas==1.5.0
 seaborn
 numpy
 matplotlib
+geopandas
+openpyxl
+mapclassify

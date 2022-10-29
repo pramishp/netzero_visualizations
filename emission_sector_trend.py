@@ -2,8 +2,12 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+
+import matplotlib.transforms as transforms
+
+
 sns.color_palette("mako", as_cmap=True)
-#
+# global params
 plt.rcParams.update({
     # "text.usetex": True,
     "font.family": "Times New Roman"
@@ -26,6 +30,8 @@ labels = df.columns[1:]
 fig = plt.figure(figsize=(6.5, 3))
 ax = plt.subplot(111)
 # ax.margins(x=0)
+trans = transforms.blended_transform_factory(
+    ax.transData, ax.transAxes)
 
 ax.stackplot(df['Year'], *cols, labels=labels, edgecolor='white')
 
@@ -35,18 +41,18 @@ ax.stackplot(df['Year'], *cols, labels=labels, edgecolor='white')
 for i, year in enumerate(df['Year']):
     interval = 5  # in years
     if year % interval == 0:
-        ax.axvline(year, ls="--")
-        denom = df['Year'][len(df) - 1] - df['Year'][0]
-        start = (year - df['Year'][0]) / denom
+        ax.axvline(year, ls="--", color='red')
+
+        # total emission at top of vertical line
         ax.text(
-            start - 0.1,
-            1.09,
+            year - int(interval/4),  # start position in year
+            1.09,  # y control
             str(int(df.iloc[i].sum())) + "Gt",
             ha="left",
             va="top",
             weight="normal",
             fontsize="x-small",
-            transform=ax.transAxes,
+            transform=trans,
         )
 
         if i != 0:
@@ -54,14 +60,14 @@ for i, year in enumerate(df['Year']):
             te2 = df[df["Year"] == year].iloc[0].sum()
             change = (te2 - te1) / interval
             ax.text(
-                start - 0.1,
-                0.9,
+                year - int(interval) + 1,
+                0.95,
                 f"{change:.02f}\%/Yr",
                 # ha="left",
                 # va="top",
                 weight="normal",
                 fontsize="x-small",
-                transform=ax.transAxes,
+                transform=trans,
             )
 
 
