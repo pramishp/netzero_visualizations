@@ -47,6 +47,7 @@ plt.rcParams['axes.linewidth'] = lwidth
 plt.rcParams['legend.handlelength'] = lhandle
 plt.rcParams['lines.linewidth']= 1.5
 
+
 # plot using matplotlib
 plt.plot(x, y)
 plt.xlabel('Year', fontname= 'Times New Roman', fontweight='bold', fontsize='12')
@@ -54,8 +55,8 @@ plt.ylabel('Number of Papers Published',fontname= 'Times New Roman', fontweight=
 
 ax=plt.subplot()
 # hide top and right spines
-ax.spines.right.set_visible(False)
-ax.spines.top.set_visible(False)
+#ax.spines.right.set_visible(False)
+#ax.spines.top.set_visible(False)
 
 # ax.x(fontweight=1.5)
 # ax.y(fontweigth=1.5)

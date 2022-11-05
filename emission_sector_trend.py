@@ -1,12 +1,33 @@
-
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-
 import matplotlib.transforms as transforms
 
-# plt.style.use('seaborn-v0_8-paper')
-# sns.color_palette("mako", as_cmap=True)
+pal= sns.color_palette('Set3')
+globals()
+plt.rcParams.update({
+    # "text.usetex": True,
+    "font.family": "Times New Roman"
+})
+fsize = 9
+tsize = 9
+tdir = 'out'
+major = 5.0
+lwidth = 1.5# to bold the axes boundary i.e. spines
+plt.style.use('default')
+plt.rcParams['text.usetex'] = False
+plt.rcParams['font.size'] = fsize
+plt.rcParams['font.weight'] = 'bold'
+plt.rcParams['legend.fontsize'] = tsize
+plt.rcParams['xtick.direction'] = tdir
+plt.rcParams['ytick.direction'] = tdir
+plt.rcParams['xtick.major.size'] = major # tick size
+plt.rcParams['ytick.major.size'] = 5.0
+plt.rcParams['axes.linewidth'] = lwidth
+plt.rcParams['lines.linewidth']= 1.5
+plt.rcParams['legend.handlelength'] = 0.5
+plt.rcParams['legend.handleheight'] = 0.5
+plt.rcParams['legend.borderpad'] = 0.4
 
 df = pd.read_csv("./data/emission_by_sector.csv", index_col=0, header=None).T
 df.reset_index(drop=True, inplace=True)
@@ -22,17 +43,27 @@ labels = df.columns[1:]
 # set seaborn style
 # sns.set_theme()
 
-fig = plt.figure(figsize=(6.5, 3), constrained_layout=True)
+
+fig = plt.figure(figsize=(5, 5), constrained_layout=False)
+
 ax = plt.subplot(111)
+
+
 # ax.margins(x=0)
 
 # make axis extend
-ax.set_ylim([0, 80])
+
+ax.set_ylim([0, 100])
+#parameters
 
 trans = transforms.blended_transform_factory(
     ax.transData, ax.transAxes)
 
-ax.stackplot(df['Year'], *cols, labels=labels, edgecolor='white')
+ax.stackplot(df['Year'], *cols,labels=labels, edgecolor='white')
+plt.xlabel('Year', fontname= 'Times New Roman', fontweight='bold', fontsize='12')
+plt.ylabel('GHG emission (GT CO2 eq/yr)', fontname= 'Times New Roman', fontweight='bold', fontsize='12')
+
+
 
 
 # draw vertical lines
@@ -40,32 +71,35 @@ ax.stackplot(df['Year'], *cols, labels=labels, edgecolor='white')
 for i, year in enumerate(df['Year']):
     interval = 5  # in years
     if year % interval == 0:
-        ax.axvline(year, ls="--", color='black')
+
+        ax.axvline(year, ymin=0, ymax=80, linewidth='0.5', ls="--", color='black')
+
 
         # total emission at top of vertical line
         ax.text(
-            year - int(interval/4),  # start position in year
-            1.09,  # y control
+            year - (interval/7),  # start position in year
+            1.02,  # y control
             str(int(df.iloc[i].sum())) + "Gt",
             ha="left",
             va="top",
-            weight="normal",
-            fontsize="x-small",
+            weight="bold",
+            fontsize="9",
             transform=trans,
-        )
 
+        )
+#%change
         if i != 0:
             te1 = df[df["Year"] == year - interval].iloc[0].sum()
             te2 = df[df["Year"] == year].iloc[0].sum()
             change = (te2 - te1) / interval
             ax.text(
-                year - int(interval) + 1,
+                year - int(interval) + 1.5,
                 0.95,
                 f"{change:.02f}\%/Yr",
                 # ha="left",
                 # va="top",
-                weight="normal",
-                fontsize="x-small",
+                weight="bold",
+                fontsize="9",
                 transform=trans,
             )
 
@@ -83,9 +117,10 @@ ax.set_position([box.x0, box.y0,
 # reverse the legend order and adjust position of legend
 handles, labels = ax.get_legend_handles_labels()
 ax.legend(handles[::-1], labels[::-1],
-          loc='center left', bbox_to_anchor=(1, 0.5),
+
+          loc='upper left', bbox_to_anchor=(1, 0.5),
           fancybox=False, shadow=False, ncol=1, frameon=False,
-          columnspacing=0, labelspacing=0.5, edgecolor='black')
+          columnspacing=0, labelspacing=0.1, edgecolor='black')
 ax.set_ylabel(r"GHG Emissions (GT Co2 eq/yr) ")
 
 # hide top and right spines
