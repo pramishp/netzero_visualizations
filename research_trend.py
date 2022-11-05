@@ -45,6 +45,7 @@ plt.rcParams['ytick.major.size'] = 5.0
 plt.rcParams['ytick.minor.size'] = 3.0
 plt.rcParams['axes.linewidth'] = lwidth
 plt.rcParams['legend.handlelength'] = lhandle
+plt.rcParams['lines.linewidth']= 1.5
 
 # plot using matplotlib
 plt.plot(x, y)
