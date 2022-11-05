@@ -5,17 +5,8 @@ import seaborn as sns
 
 import matplotlib.transforms as transforms
 
-
-sns.color_palette("mako", as_cmap=True)
-# global params
-plt.rcParams.update({
-    # "text.usetex": True,
-    "font.family": "Times New Roman"
-})
-plt.rcParams['legend.handlelength'] = 2
-plt.rcParams['legend.handleheight'] = 2
-plt.rcParams['legend.borderpad'] = 0.4
-
+# plt.style.use('seaborn-v0_8-paper')
+# sns.color_palette("mako", as_cmap=True)
 
 df = pd.read_csv("./data/emission_by_sector.csv", index_col=0, header=None).T
 df.reset_index(drop=True, inplace=True)
