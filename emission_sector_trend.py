@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.transforms as transforms
 
-
 pal= sns.color_palette('Set3')
 globals()
 plt.rcParams.update({
@@ -29,6 +28,7 @@ plt.rcParams['lines.linewidth']= 1.5
 plt.rcParams['legend.handlelength'] = 0.5
 plt.rcParams['legend.handleheight'] = 0.5
 plt.rcParams['legend.borderpad'] = 0.4
+
 df = pd.read_csv("./data/emission_by_sector.csv", index_col=0, header=None).T
 df.reset_index(drop=True, inplace=True)
 df.sort_values(['Year'])
@@ -43,6 +43,7 @@ labels = df.columns[1:]
 # set seaborn style
 # sns.set_theme()
 
+
 fig = plt.figure(figsize=(5, 5), constrained_layout=False)
 
 ax = plt.subplot(111)
@@ -51,10 +52,9 @@ ax = plt.subplot(111)
 # ax.margins(x=0)
 
 # make axis extend
+
 ax.set_ylim([0, 100])
 #parameters
-
-
 
 trans = transforms.blended_transform_factory(
     ax.transData, ax.transAxes)
@@ -71,7 +71,9 @@ plt.ylabel('GHG emission (GT CO2 eq/yr)', fontname= 'Times New Roman', fontweigh
 for i, year in enumerate(df['Year']):
     interval = 5  # in years
     if year % interval == 0:
+
         ax.axvline(year, ymin=0, ymax=80, linewidth='0.5', ls="--", color='black')
+
 
         # total emission at top of vertical line
         ax.text(
@@ -115,14 +117,15 @@ ax.set_position([box.x0, box.y0,
 # reverse the legend order and adjust position of legend
 handles, labels = ax.get_legend_handles_labels()
 ax.legend(handles[::-1], labels[::-1],
+
           loc='upper left', bbox_to_anchor=(1, 0.5),
           fancybox=False, shadow=False, ncol=1, frameon=False,
           columnspacing=0, labelspacing=0.1, edgecolor='black')
 ax.set_ylabel(r"GHG Emissions (GT Co2 eq/yr) ")
 
 # hide top and right spines
-#ax.spines.right.set_visible(False)
-#ax.spines.top.set_visible(False)
+ax.spines.right.set_visible(False)
+ax.spines.top.set_visible(False)
 
 # ax.set_xticks(df['Year'][::10])
 # ax.set_yticks(list(range(80))[::10])

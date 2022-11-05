@@ -48,9 +48,6 @@ plt.rcParams['legend.handlelength'] = lhandle
 plt.rcParams['lines.linewidth']= 1.5
 
 
-
-
-
 # plot using matplotlib
 plt.plot(x, y)
 plt.xlabel('Year', fontname= 'Times New Roman', fontweight='bold', fontsize='12')
