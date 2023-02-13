@@ -1,101 +1,130 @@
+import math
+import helpers
 import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
 import numpy as np
 import matplotlib.transforms as transforms
 
-sns.color_palette("mako", as_cmap=True)
-#
-plt.rcParams.update({
-    # "text.usetex": True,
-    "font.family": "Times New Roman"
-})
-plt.rcParams['legend.handlelength'] = 1
-plt.rcParams['legend.handleheight'] = 1
-plt.rcParams['legend.borderpad'] = 0.4
-df = pd.read_excel('data/erlabee4esupp1.xlsx', sheet_name='Total regions')
-df = pd.pivot_table(df, columns=['region_ar6_10'], aggfunc=np.sum)
-df.drop("subsector", inplace=True)
-df['Year'] = df.index.values.astype(int)
-df.reset_index(drop=True, inplace=True)
+from helpers.colors import set_stacked_area_colors
+from helpers.io import save
+from constants import *
 
-# df = pd.read_csv("./data/emission_by_sector.csv", index_col=0, header=None).T
-print(df.head())
-print(df.columns)
+plt.style.use('./styles/stacked_area.mplstyle')
 
-cols = [df[col_name] for col_name in df.columns[:-1]]
-labels = df.columns[:-1]
 
-# plotting
-# set seaborn style
-# sns.set_theme()
+def read_data():
+    df = pd.read_excel('data/erlabee4esupp1.xlsx', sheet_name='Total regions')
+    df = pd.pivot_table(df, columns=['region_ar6_10'], aggfunc=np.sum)
+    df.drop("subsector", inplace=True)
+    df['Year'] = df.index.values.astype(int)
+    df.reset_index(drop=True, inplace=True)
+    df = df[['Year', *df.columns[:-1]]]
+    return df
 
-fig = plt.figure(figsize=(6.5, 3),)
+
+df = read_data()
+cols = [df[col_name] for col_name in df.columns[1:]]
+labels = df.columns[1:]
+
+# start plotting
+fig = plt.figure(figsize=FIG_SIZE, dpi=DISPLAY_DIP)
 ax = plt.subplot(111)
-trans = transforms.blended_transform_factory(
-    ax.transData, ax.transAxes)
+# set color
+set_stacked_area_colors(ax, option_id=2)
 
-
-# make axis extend
-ax.set_ylim([0, 80])
-# ax.margins(x=0)
-ax.stackplot(df['Year'], *cols, labels=labels, edgecolor='white')
+ax.stackplot(df['Year'], *cols,
+             labels=labels,
+             edgecolor='white'
+             )
+plt.xlabel('Year')
+plt.ylabel('GHG emission (Gt CO2 eq/yr)')
 
 # draw vertical lines
+trans = transforms.blended_transform_factory(ax.transData, ax.transAxes)
+
+ax.set_ylim([0, 70])
+# ax.margins(x=0.08)
+ax.set_xlim(right=2025)
+
+
+def annotate_change(year, prev_year):
+    te1 = df[df["Year"] == prev_year].iloc[0][1:].sum()
+    te2 = df[df["Year"] == year].iloc[0][1:].sum()
+    interval = year - prev_year
+    change = ((te2 - te1) / interval)
+    ax.text(
+        (year - interval / 2),
+        0.82,
+        f"{change:.02f}%/yr",
+        ha="center",
+        # va="top",
+        transform=trans,
+    )
+
+
+def vertical_line(year, interval):
+    ax.axvline(year, ymin=0, ymax=0.9,
+               linewidth='0.5',
+               ls="--",
+               color='black')
+
+    # total emission at top of vertical line
+    ax.text(
+        year,  # start position in year
+        0.91,  # y control
+        str(np.ceil(df.iloc[i][1:].sum()).astype(int)) + "Gt",
+        ha="center",
+        # va="top",
+        transform=trans,
+    )
+
+
+def add_labels(year):
+    col_names = df.columns[1:]
+    total_y = 0
+    for col in col_names:
+        row = df[df["Year"] == year].iloc[0]
+        y = row[col]
+        percentage = (y / (row[1:].sum())) * 100
+        percentage = math.ceil(percentage)
+        total_y = total_y + y
+        ax.text(
+            year,  # start position in year
+            total_y - y / 4,  # y control
+            str(percentage) + "%",
+            ha="left",
+            va="top",
+            fontsize=6
+        )
+
 
 for i, year in enumerate(df['Year']):
     interval = 10  # in years
     if year % interval == 0:
-        ax.axvline(year, ls="--", color='silver')
-        denom = df['Year'][len(df) - 1] - df['Year'][0]
-        start = (year - df['Year'][0]) / denom
-        ax.text(
-            year - int(interval / 4),  # start position in year
-            1.02,  # y control
-            str(int(df.iloc[i].sum())) + "Gt",
-            ha="left",
-            va="top",
-            weight="bold",
-            fontsize="9",
-            transform=trans,
-        )
-
+        vertical_line(year, interval)
+        add_labels(year)
+        # %change
         if i != 0:
-            te1 = df[df["Year"] == year - interval].iloc[0].sum()
-            te2 = df[df["Year"] == year].iloc[0].sum()
-            change = (te2 - te1) / interval
-            ax.text(
-                year - int(interval) + 1,
-                0.95,
-                f"{change:.02f}\%/Yr",
-                # ha="left",
-                # va="top",
-                weight="bold",
-                fontsize="9",
-                transform=trans,
-            )
-plt.xlabel('Year', fontname= 'Times New Roman', fontweight='bold', fontsize='12')
-plt.ylabel('GHG emission (GT CO2 eq/yr)', fontname= 'Times New Roman', fontweight='bold', fontsize='12')
-# Put a legend
+            annotate_change(year, year - interval)
+
+    if i == len(df) - 1 and year % interval != 0:
+        vertical_line(year, interval)
+        annotate_change(year, year - (year % interval))
+
+# handle legend
 box = ax.get_position()
-ax.set_position([box.x0, box.y0,
-                 box.width * 0.8, box.height])
+# ax.set_position([box.x0, box.y0,
+#                  box.width, box.height])
 
 # reverse the legend order and adjust position of legend
 handles, labels = ax.get_legend_handles_labels()
+x, y = trans.transform([2019, 60])
+boxx, boxy = ax.transAxes.inverted().transform([x, y])
 ax.legend(handles[::-1], labels[::-1],
-          loc='center left', bbox_to_anchor=(1, 0.5),
-          fancybox=False, shadow=False, ncol=1, frameon=False,
-          columnspacing=0, labelspacing=0.1, edgecolor='black')
-ax.set_ylabel(r"GHG Emissions (GT Co2 eq/yr) ")
-
-# hide top and right spines
-ax.spines.right.set_visible(False)
-ax.spines.top.set_visible(False)
-
-
-ax.set_ylabel(r"GHG Emissions (GT Co2 eq/yr) ")
-# ax.set_xticks(df['Year'][::10])
-# ax.set_yticks(list(range(80))[::10])
-[t.set_color('red') for t in ax.yaxis.get_ticklines()]
-plt.show()
+          loc='center left',
+          bbox_to_anchor=(boxx, 0.4),
+          ncol=1,
+          fontsize=5,
+          )
+save('emission_region_trend')
+plt.show(block=True)
