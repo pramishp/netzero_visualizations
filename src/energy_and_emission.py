@@ -47,6 +47,7 @@ def get_table():
         new_row = [fuel, contrib_2050, contrib_2020]
         df.loc[i] = new_row
 
+
     df.to_csv(join(table_out_path, 'energy_sources and their contrib in 2050, 2020.csv'))
 
 
@@ -91,4 +92,4 @@ def draw_figure():
     draw_stacked_barchart(fuel, values1, values2, legends=('SSP2', 'SPA1'))
 
 
-draw_figure()
+get_table()
