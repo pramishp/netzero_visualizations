@@ -11,10 +11,10 @@ from helpers.colors import set_stacked_area_colors
 plt.style.use('../styles/bar_chart_style.mplstyle')
 
 # out paths
-table_out_path = "/Users/pramish/Desktop/Codes/netzero/Visualization/results/tables"
+table_out_path = "../results/tables"
 # file paths
-file_2050 = "/Users/pramish/Desktop/Codes/netzero/gcam_code/data_out/df2050_ene.csv"
-file_2020 = "/Users/pramish/Desktop/Codes/netzero/gcam_code/data_out/df2020_ene.csv"
+file_2050 = "../../preprocessed_data/df2050_ene.csv"
+file_2020 = "../../preprocessed_data/df2020_ene.csv"
 
 # columns : 'Units', 'region', 'fuel', 'value'
 
@@ -60,7 +60,7 @@ def draw_stacked_barchart(fuel, v1, v2, legends):
     ax = plt.subplot(111)
     # set color
     # TODO: make one for bar chart, option 4 looks good
-    set_stacked_area_colors(ax, option_id=4)
+    set_stacked_area_colors(ax, option_id=2)
     # Plot the first set of bars
     bars1 = ax.bar(x - 0.2, v1, edgecolor='black', width=0.2)
 
@@ -92,4 +92,5 @@ def draw_figure():
     draw_stacked_barchart(fuel, values1, values2, legends=('SSP2', 'SPA1'))
 
 
-get_table()
+# get_table()
+draw_figure()

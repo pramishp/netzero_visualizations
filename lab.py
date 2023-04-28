@@ -1,27 +1,31 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Define the data
-energy_sources = ['a oil', 'b natural gas', 'c coal', 'd biomass', 'e nuclear',
-                  'f hydro', 'g wind', 'h solar', 'i geothermal', 'j traditional biomass']
+# Create the data
+years = np.arange(2020, 2080, 5)
+regions = ['China', 'India', 'South Asia', 'Europe', 'North America']
+sectors = ['Transport', 'Industry', 'Buildings', 'Electricity', 'Agriculture']
 
-contrib_2020 = [20.42318778, 6.45602973, 50.6573167, 5.028050084, 1.572699935,
-                6.561151583, 1.94650779, 0.866325649, 0.138979864, 6.349750885]
+ssp1_data = np.random.randint(100, 1000, (5, 12))  # SSP1 data
+ssp2_data = np.random.randint(100, 1000, (5, 12))  # SSP2 data
+spa1_data = np.random.randint(100, 1000, (5, 12))  # SPA1 data
 
-# Create the horizontal bar chart
-fig, ax = plt.subplots()
+# Create the stacked area chart
+fig, axs = plt.subplots(nrows=1, ncols=2, sharey=True, figsize=(12, 6))
 
-# Set the x-axis and y-axis labels and title
-ax.set_xlabel('Contribution (%)')
-ax.set_ylabel('Energy Source')
-ax.set_title('Energy Sources Contribution in 2020')
+axs[0].stackplot(years, ssp2_data, labels=sectors)
+axs[0].stackplot(years, spa1_data, labels=sectors)
+axs[1].stackplot(years, ssp1_data, labels=sectors)
+axs[1].stackplot(years, ssp2_data, labels=sectors)
 
-# Create the horizontal bars
-bars = ax.barh(energy_sources, contrib_2020, color='skyblue')
+# Add legend and labels
+axs[0].legend(loc='upper left')
+axs[1].legend(loc='upper left')
+axs[0].set_xlabel('Year')
+axs[1].set_xlabel('Year')
+axs[0].set_ylabel('CO2 emissions')
+axs[0].set_title('SSP2 vs SPA1')
+axs[1].set_title('SSP1 vs SSP2')
 
-# Add annotations to the bars
-for i, bar in enumerate(bars):
-    ax.annotate(f'{contrib_2020[i]:.2f}%', xy=(contrib_2020[i], i), va='center')
-
-# Show the chart
+# Show the plot
 plt.show()
