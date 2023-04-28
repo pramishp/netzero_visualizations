@@ -1,4 +1,5 @@
 from os.path import join
+import os
 import sys
 import pandas as pd
 import numpy as np
@@ -13,6 +14,8 @@ plt.style.use('../styles/bar_chart_style.mplstyle')
 
 # out paths
 table_out_path = "../results/tables"
+if not os.path.exists(table_out_path):
+    os.makedirs(table_out_path)
 # file paths
 file_2050 = "../preprocessed_data/df2050_ene.csv"
 file_2020 = "../preprocessed_data/df2020_ene.csv"
@@ -93,5 +96,5 @@ def draw_figure():
     draw_stacked_barchart(fuel, values1, values2, legends=('SSP2', 'SPA1'))
 
 
-# get_table()
-draw_figure()
+get_table()
+# draw_figure()
