@@ -4,8 +4,8 @@ import numpy as np
 import seaborn as sns
 
 # Read data from CSV files
-file_spa1 = "/Users/pramish/Desktop/Codes/netzero/gcam_code/data_out/energy and emission/spa1_co2_by_sector.csv"
-file_ssp2 = "/Users/pramish/Desktop/Codes/netzero/gcam_code/data_out/energy and emission/spa2_co2_by_sector.csv"
+file_spa1 = "../../preprocessed_data/energy and emission/spa1_co2_by_sector.csv"
+file_ssp2 = "../../preprocessed_data/energy and emission/spa2_co2_by_sector.csv"
 
 df1 = pd.read_csv(file_spa1, index_col=0)
 # df1 = df1[df1['region'] != "China"]
@@ -29,13 +29,13 @@ regions = pd.unique(df1['region'])
 fig, axs = plt.subplots(nrows=len(df1['sector'].unique()) // 2, ncols=2, figsize=(10, 10), sharex=True)
 # fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(10, 20))
 # Define plot layout
-
 # loop through sectors and plot lines for each region
 for i, sector in enumerate(df1['sector'].unique()):
     sector_df1 = df1[df1['sector'] == sector]
     sector_df2 = df2[df2['sector'] == sector]
     col = i % 2
     ax = axs[i // 2, col]
+    ax.set_yscale('log')
 
     # Set plot title and axis labels
     ax.set_title(sector)
