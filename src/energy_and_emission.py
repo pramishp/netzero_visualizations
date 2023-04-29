@@ -10,15 +10,15 @@ sys.path.append("../")
 from constants import FIG_SIZE, DISPLAY_DIP
 from helpers.colors import set_stacked_area_colors
 
-plt.style.use('../styles/bar_chart_style.mplstyle')
+plt.style.use('../../styles/bar_chart_style.mplstyle')
 
 # out paths
 table_out_path = "../results/tables"
 if not os.path.exists(table_out_path):
     os.makedirs(table_out_path)
 # file paths
-file_2050 = "../preprocessed_data/df2050_ene.csv"
-file_2020 = "../preprocessed_data/df2020_ene.csv"
+file_2050 = "../../preprocessed_data/df2050_ene.csv"
+file_2020 = "../../preprocessed_data/df2020_ene.csv"
 
 # columns : 'Units', 'region', 'fuel', 'value'
 
@@ -66,15 +66,37 @@ def draw_stacked_barchart(fuel, v1, v2, legends):
     # TODO: make one for bar chart, option 4 looks good
     set_stacked_area_colors(ax, option_id=2)
     # Plot the first set of bars
-    bars1 = ax.bar(x - 0.2, v1, edgecolor='black', width=0.2)
+    bars1 = ax.bar(x - 0.3, v1, edgecolor='black', width=0.3,color='pink',linewidth=0.75)
+    
 
     # Plot the second set of bars
-    bars2 = ax.bar(x, v2, edgecolor='black', width=0.2)
+    bars2 = ax.bar(x, v2, edgecolor='black', width=0.3, color='skyblue',linewidth=0.75)
+    colors = ['#ADD8E6', '#FFFFE0']  # light blue and light yellow
+    ax.set_prop_cycle(color=colors)
 
+    # Calculate the percentage difference between the two bars for each x label
+    diff_percentages = []
+    for i in range(len(fuel)):
+        diff = ((v2[i] - v1[i]) / v1[i]) * 100
+        diff_percentages.append(diff)
+
+    # Find the highest bar value between two for each x label
+    highest_value = []
+    for i in range(len(fuel)):
+        highest_value.append(max(v1[i], v2[i]))
+
+    # Add the percentage difference to the bar which is highest between two
+    for i, (bar1, bar2) in enumerate(zip(bars1, bars2)):
+        if highest_value[i] == v2[i]:
+            ax.text(bar2.get_x() + bar2.get_width() / 2, highest_value[i] + 2,
+                    '{:.2f}%'.format(diff_percentages[i]), ha='center', va='bottom', fontsize=8)
+        else:
+            ax.text(bar1.get_x() + bar1.get_width() / 2, highest_value[i] + 2,
+                    '{:.2f}%'.format(diff_percentages[i]), ha='center', va='bottom', fontsize=8)
     # Add labels and titles
     # ax.set_xlabel('Fuel')
-    ax.set_ylabel('Energy (in EJ)')
-    ax.set_title('Fuel Comparison')
+    ax.set_ylabel('Energy (EJ)', fontweight='bold', fontsize= 10)
+ 
     ax.set_xticks(x)
     ax.set_xticklabels(fuel, rotation=45, ha='right')
     ax.legend((bars1[0], bars2[0]), legends)
@@ -93,8 +115,8 @@ def draw_figure():
     values1 = fuel_by_value_2020['value']
     values2 = fuel_by_value_2050['value']
 
-    draw_stacked_barchart(fuel, values1, values2, legends=('SSP2', 'SPA1'))
+    draw_stacked_barchart(fuel, values1, values2, legends=('SSP2', 'SSP1'))
 
 
-get_table()
-# draw_figure()
+#get_table()
+draw_figure()
