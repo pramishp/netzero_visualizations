@@ -4,6 +4,8 @@ import numpy as np
 import seaborn as sns
 
 # Read data from CSV files
+import sys
+sys.path.append("../../")
 from constants import FIG_SIZE, DISPLAY_DIP
 from helpers.colors import set_stacked_area_colors
 
@@ -43,11 +45,14 @@ def get_transport_energy_by_fuel_chart(fuel_name):
                  labels=labels,
                  edgecolor='white'
                  )
-    ax.plot(pt1['Year'], pt1['value'])
+    ax.plot(pt1['Year'], pt1['value'], color='yellow',linewidth=3 )
+
+    
     ax.legend()
-    plt.xlabel('Year')
-    plt.ylabel('EJ')
+    plt.xlabel('Year', fontsize=9)
+    plt.ylabel('EJ', fontsize=9)    
     plt.show()
+    
 
 
 hydrogren = "H2"
