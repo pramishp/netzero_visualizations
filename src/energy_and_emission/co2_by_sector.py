@@ -49,7 +49,7 @@ ssp2_pivot = df2.pivot_table(index=['region', 'Year'], columns='sector', values=
 
 #
 labels = [str(year) for year in years]
-regions = spa1_pivot.index.get_level_values(0).unique().tolist()
+regions = spa1_pivot.index.get_level_values(0).unique().tolist()[::-1]
 years = spa1_pivot.index.get_level_values(1).unique().tolist()
 colors =  ['thistle','yellow','skyblue','pink', 'palegreen'][
          :len(spa1_pivot.columns)]
