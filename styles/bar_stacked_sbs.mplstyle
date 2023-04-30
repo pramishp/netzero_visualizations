@@ -13,6 +13,8 @@ xtick.direction: out
 ytick.direction: out
 xtick.major.size: 10.0
 ytick.major.size: 10.0
+xtick.bottom : False
+
 axes.linewidth: 1.5
 lines.linewidth: 1.5
 legend.handlelength: 2

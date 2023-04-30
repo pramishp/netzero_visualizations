@@ -11,7 +11,9 @@ file_spa1 = "../../preprocessed_data/technology/spa1_transport_energy_by_fuel.cs
 file_ssp2 = "../../preprocessed_data/technology/ssp2_transport_energy_by_fuel.csv"
 
 
-def get_transport_energy_by_fuel_chart(fuel_name):
+fig = plt.figure(figsize=FIG_SIZE, dpi=DISPLAY_DIP)
+
+def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
     df1 = pd.read_csv(file_spa1, index_col=0)
     df1 = df1[df1['input'] == fuel_name]
     df2 = pd.read_csv(file_ssp2, index_col=0)
@@ -34,8 +36,8 @@ def get_transport_energy_by_fuel_chart(fuel_name):
     cols = [pt2[col_name] for col_name in pt2.columns[1:]]
     labels = pt2.columns[1:]
 
-    fig = plt.figure(figsize=FIG_SIZE, dpi=DISPLAY_DIP)
-    ax = plt.subplot(111)
+    ax = plt.subplot(subplot_num)
+
     # set color
     set_stacked_area_colors(ax, option_id=2)
 
@@ -44,14 +46,13 @@ def get_transport_energy_by_fuel_chart(fuel_name):
                  edgecolor='white'
                  )
     ax.plot(pt1['Year'], pt1['value'])
-    ax.legend()
-    plt.xlabel('Year')
-    plt.ylabel('EJ')
-    plt.show()
-
 
 hydrogren = "H2"
 electricity = "Electricity"
-get_transport_energy_by_fuel_chart(hydrogren)
+get_transport_energy_by_fuel_chart(hydrogren, 121)
+get_transport_energy_by_fuel_chart(electricity, 122)
 
-# TODO: add title, SSP2, SPA1
+plt.xlabel('Year')
+plt.ylabel('EJ')
+plt.legend()
+plt.show()

@@ -1,7 +1,10 @@
+import copy
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+
 plt.style.use('../../styles/bar_stacked_sbs.mplstyle')
 
 # Read data from CSV files
@@ -44,52 +47,90 @@ ssp2_pivot = df2.pivot_table(index=['region', 'Year'], columns='sector', values=
 labels = [str(year) for year in years]
 regions = spa1_pivot.index.get_level_values(0).unique().tolist()
 years = spa1_pivot.index.get_level_values(1).unique().tolist()
-colors = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600'][:len(spa1_pivot.columns)]
+colors = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600'][
+         :len(spa1_pivot.columns)]
 col2color = {col: color for col, color in zip(spa1_pivot.columns, colors)}
 
-nrows = len(regions)/2 if len(regions) % 2 == 0 else (len(regions)//2+1)
+nrows = len(regions) / 2 if len(regions) % 2 == 0 else (len(regions) // 2 + 1)
 ncols = 2
-fig, axs = plt.subplots(nrows, ncols, figsize=(12*2, 2 * 12))
+fig, axs = plt.subplots(nrows, ncols, figsize=(12 * 2, 2 * 12), sharex=False)
 # fig.suptitle('CO2 Emissions by Region and Year', fontsize=16)
 
 # create plot
 for i in range(nrows):
     for k in range(ncols):
         ax = axs[i][k]
-        index = i*2 + k
+        index = i * 2 + k
         if index == len(regions):
             ax.set_visible(False)
             continue
-        region = regions[i*2+k]
+        region = regions[i * 2 + k]
         cols1 = []
         cols2 = []
         for j, col1 in enumerate(spa1_pivot.columns):
-            cols1.append({'label': col1, 'bottom': spa1_pivot.columns[:j], "values": spa1_pivot.loc[region][col1].values})
-            cols2.append({'label': col1, 'bottom': ssp2_pivot.columns[:j], "values": ssp2_pivot.loc[region][col1].values})
+            cols1.append(
+                {'label': col1, 'bottom': spa1_pivot.columns[:j], "values": spa1_pivot.loc[region][col1].values})
+            cols2.append(
+                {'label': col1, 'bottom': ssp2_pivot.columns[:j], "values": ssp2_pivot.loc[region][col1].values})
 
         # generate x-axis positions for each set of bars
         bar_width = 0.4
         x_pos1 = np.arange(len(years))
         x_pos2 = [x + bar_width for x in x_pos1]
         bottom1 = np.zeros((len(years)))
+        bottom1_min = np.zeros((len(years)))
         bottom2 = np.zeros((len(years)))
+        bottom2_min = np.zeros((len(years)))
 
         for l, col1 in enumerate(cols1):
             col2 = cols2[l]
             color = col2color[col1['label']]
-            ax.bar(x_pos1, col1['values'], bottom=bottom1, label=col1['label'], width=bar_width,
-                   align='edge', color=color, edgecolor='black')
-            ax.bar(x_pos2, col2['values'], bottom=bottom2, label=col2['label'], width=bar_width,
-                   align='edge', color=color, edgecolor='black')
-            bottom1 += col1['values']
-            bottom2 += col2['values']
+            bottom_spa1 = np.where(col1['values'] > 0, bottom1, bottom1_min)
+            bottom_ssp2 = np.where(col2['values'] > 0, bottom2, bottom2_min)
+            bar_props1 = ax.bar(x_pos2, col1['values'], bottom=bottom_spa1, label=col1['label'], width=bar_width,
+                                align='edge', color=color, edgecolor='black')
+            bar_props2 = ax.bar(x_pos1, col2['values'], bottom=bottom_ssp2, label=col2['label'], width=bar_width,
+                                align='edge', color=color, edgecolor='black')
+
+            # # add percentage
+            # for j, xpos in enumerate(x_pos1):
+            #     ax.text(xpos + bar_width / 2, bottom_spa1[j] + col1['values'][j] / 2,
+            #             str(round(100 * col1['values'][j] / 100, 1)) + '%',
+            #             ha='center', va='center', fontweight='bold', fontsize=15)
+            #
+            #     ax.text(x_pos2[j] + bar_width / 2, bottom_ssp2[j] + col2['values'][j] / 2,
+            #             str(round(100 * col2['values'][j] / 100, 1)) + '%',
+            #             ha='center', va='center', fontweight='bold', fontsize=15)
+
+            bottom1 += np.where(col1['values'] > 0, col1['values'], 0)
+            bottom2 += np.where(col2['values'] > 0, col2['values'], 0)
+
+            bottom1_min += np.where(col1['values'] < 0, col1['values'], 0)
+            bottom2_min += np.where(col2['values'] < 0, col2['values'], 0)
+
+            # Add percentage labels
+            # for i, rect in enumerate(bar_props1):
+            #     height = rect.get_height()
+            #     xpos = rect.get_x() + rect.get_width() / 2.0
+            #     ypos = rect.get_y() + height / 2.0
+            #     ax.text(xpos, ypos, '{:.1f}%'.format(height / 100 * 100), ha='center', va='center', color='white',
+            #             fontweight='bold', fontsize=15)
+
+
+            # for i, rect in enumerate(barprops):
+            #     height = rect.get_height()
+            #     xpos = rect.get_x() + rect.get_width() / 2.0
+            #     ypos = rect.get_y() + height / 2.0
+            #     ax.text(xpos, ypos, '{:.1f}%'.format(height / 100 * 100), ha='center', va='center', color='white',
+            #             fontweight='bold', fontsize=15)
 
         # Calculate the maximum value for the y-axis
-        y_max = bottom1.max()
-        y_min = bottom1.min()
+        y_max = bottom2.max()
+        y_min = bottom1_min.min()
+
         # Set y-axis limit
-        ax.set_ylim([min(0, y_min), y_max*1.2])
-        xticks = x_pos2
+        ax.set_ylim([min(0, y_min), y_max * 1.2])
+        xticks = np.asarray(x_pos2) - 0.1
         xtick_labels = labels
         ax.set_xticks(xticks)
         ax.set_xticklabels(labels)
