@@ -6,24 +6,23 @@ axes.spines.top:    False
 axes.spines.right:  False
 
 text.usetex: False
-font.size: 9
+font.size: 8
 font.weight: bold
-legend.fontsize: 9
+legend.fontsize: 8
 xtick.direction: out
 ytick.direction: out
 xtick.major.size: 5.0
 ytick.major.size: 5.0
 axes.linewidth: 1.5
 lines.linewidth: 1.5
-legend.handlelength: 2
-legend.handleheight: 2
+legend.handlelength: 1.25
+legend.handleheight: 1.25
 legend.borderpad: 1.0
 legend.fancybox:False
 legend.shadow:False
 legend.frameon:False
-legend.columnspacing:3
+legend.columnspacing:1
 legend.labelspacing:0.0
 legend.edgecolor:black
 legend.handletextpad: 0.4
 legend.labelspacing: 2
-

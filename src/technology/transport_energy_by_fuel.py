@@ -4,9 +4,12 @@ import numpy as np
 import seaborn as sns
 
 # Read data from CSV files
+import sys
+sys.path.append("../../")
 from constants import FIG_SIZE, DISPLAY_DIP
 from helpers.colors import set_stacked_area_colors
 
+plt.style.use('../../styles/stacked_area.mplstyle')
 file_spa1 = "../../preprocessed_data/technology/spa1_transport_energy_by_fuel.csv"
 file_ssp2 = "../../preprocessed_data/technology/ssp2_transport_energy_by_fuel.csv"
 
@@ -45,7 +48,9 @@ def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
                  labels=labels,
                  edgecolor='white'
                  )
-    ax.plot(pt1['Year'], pt1['value'])
+
+    ax.plot(pt1['Year'], pt1['value'], color='yellow',linewidth=3 )
+
 
 hydrogren = "H2"
 electricity = "Electricity"
