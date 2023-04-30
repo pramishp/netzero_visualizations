@@ -6,23 +6,30 @@ axes.spines.top:    False
 axes.spines.right:  False
 
 text.usetex: False
-font.size: 8
+font.size: 9
 font.weight: bold
-legend.fontsize: 8
+legend.fontsize: 12
 xtick.direction: out
 ytick.direction: out
-xtick.major.size: 5.0
-ytick.major.size: 5.0
+xtick.major.size: 10.0
+ytick.major.size: 10.0
 axes.linewidth: 1.5
 lines.linewidth: 1.5
-legend.handlelength: 1.25
-legend.handleheight: 1.25
+legend.handlelength: 2
+legend.handleheight: 2
 legend.borderpad: 1.0
 legend.fancybox:False
 legend.shadow:False
 legend.frameon:False
-legend.columnspacing:1
+legend.columnspacing:3
 legend.labelspacing:0.0
 legend.edgecolor:black
 legend.handletextpad: 0.4
-legend.labelspacing: 2
+legend.labelspacing: 2.0
+
+figure.subplot.wspace: 0.1
+figure.subplot.hspace: 0.3
+
+axes.titlepad: 30
+axes.titlesize : 20
+axes.titleweight: bold
