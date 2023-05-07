@@ -40,8 +40,10 @@ def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
     pt3 =pd.pivot_table(df2, index=['Year'], values='value', aggfunc=np.sum)
     pt3.reset_index(inplace=True)
 
+
+   
     # draw stacked area
-    cols = [pt2[col_name] for col_name in pt2.columns[1:]]
+    cols = [pt2[col_name] for col_name in pt2.columns[1:]]    
     labels = pt2.columns[1:]
 
     ax = plt.subplot(subplot_num)
@@ -54,16 +56,22 @@ def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
                  colors=colors,
                  alpha=1           
                  )
+   
 
-    ax.plot(pt1['Year'], pt1['value'], color='darksalmon',linewidth=2 )
+    ax.plot(pt1['Year'], pt1['value'], color='darkorange',linewidth=1.5, marker='.' )
     # draw plot at the uppermost surface of stacked area chart
-    ax.plot(pt3['Year'], pt3['value'], color='limegreen',linewidth=2.5 )
+    ax.plot(pt3['Year'], pt3['value'], color='seagreen',linewidth=1.5,marker='.' )
     if subplot_num == 121:
         ax.set_ylabel('Hydrogen (EJ)', fontweight= 'bold')
+        ax.set_xlabel('Year', fontweight= 'bold')
+        
         
     elif subplot_num == 122:
         ax.set_ylabel('Electricity (EJ)', fontweight= 'bold')
         ax.set_xlabel('Year', fontweight= 'bold')
+
+
+    
 
 
 
@@ -71,7 +79,7 @@ hydrogren = "H2"
 electricity = "Electricity"
 get_transport_energy_by_fuel_chart(hydrogren, 121)
 get_transport_energy_by_fuel_chart(electricity, 122)
-plt.xlabel('Year')
+plt.xlabel('Year',loc= 'center')
 plt.legend(loc='lower center', bbox_to_anchor=(0.0000005, -0.2),ncol=5)
 
 plt.show()

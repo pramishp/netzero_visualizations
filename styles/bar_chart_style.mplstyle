@@ -6,14 +6,15 @@ axes.spines.top:    False
 axes.spines.right:  False
 
 text.usetex: False
-font.size: 8
-font.weight: bold
-legend.fontsize: 8
+font.size: 7
+font.weight: normal
+font: arial
+legend.fontsize: 7
 xtick.direction: out
 ytick.direction: out
 xtick.major.size: 5.0
 ytick.major.size: 5.0
-axes.linewidth: 1.5
+axes.linewidth: 1.25
 lines.linewidth: 1.5
 legend.handlelength: 1.25
 legend.handleheight: 1.25
