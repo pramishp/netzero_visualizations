@@ -7,8 +7,9 @@ axes.spines.right:  False
 
 text.usetex: False
 font.size: 7
-
+font: arial
 legend.fontsize: 7
+font.weight: normal
 xlabel.fontweight: bold
 xtick.direction: out
 ytick.direction: out

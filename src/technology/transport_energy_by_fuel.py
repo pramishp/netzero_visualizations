@@ -12,8 +12,8 @@ from helpers.colors import set_stacked_area_colors
 plt.style.use('../../styles/stacked_area.mplstyle')
 file_spa1 = "../../preprocessed_data/technology/spa1_transport_energy_by_fuel.csv"
 file_ssp2 = "../../preprocessed_data/technology/ssp2_transport_energy_by_fuel.csv"
-c,'pink', 'palegreen']
-#sns.color_palolors = ['thistle','yellow','skyblue'ette("Set3", 5)
+colors = ['thistle','yellow','skyblue','pink', 'palegreen']
+#sns.color_palette("Set3", 5)
 
 fig = plt.figure(figsize=FIG_SIZE, dpi=DISPLAY_DIP)
 
@@ -79,7 +79,7 @@ hydrogren = "H2"
 electricity = "Electricity"
 get_transport_energy_by_fuel_chart(hydrogren, 121)
 get_transport_energy_by_fuel_chart(electricity, 122)
-plt.xlabel('Year',loc= 'center')
-plt.legend(loc='lower center', bbox_to_anchor=(0.0000005, -0.2),ncol=5)
+plt.xlabel('Year')
+plt.legend(loc='lower center', bbox_to_anchor=(0.00000000000000005, -0.2),ncol=5)
 
 plt.show()
