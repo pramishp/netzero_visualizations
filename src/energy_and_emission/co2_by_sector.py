@@ -26,7 +26,7 @@ df2 = df2[df2['sector'] != "agriculture"]
 regions = df1['region'].unique()
 sectors = df1['sector'].unique()
 # define color palette
-color_palette = sns.color_palette("husl", len(sectors))
+color_palette = sns.color_palette("pastel", len(sectors))
 
 years = [2030, 2050, 2080]
 # regions
@@ -47,7 +47,7 @@ ssp2_pivot = df2.pivot_table(index=['region', 'Year'], columns='sector', values=
 labels = [str(year) for year in years]
 regions = spa1_pivot.index.get_level_values(0).unique().tolist()
 years = spa1_pivot.index.get_level_values(1).unique().tolist()
-colors = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600'][
+colors =  ['thistle','yellow','skyblue','pink', 'palegreen'][
          :len(spa1_pivot.columns)]
 col2color = {col: color for col, color in zip(spa1_pivot.columns, colors)}
 
