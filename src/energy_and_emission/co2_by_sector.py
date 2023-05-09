@@ -6,6 +6,8 @@ import numpy as np
 import seaborn as sns
 from matplotlib.gridspec import GridSpec
 
+from constants import DISPLAY_DIP
+
 plt.style.use('../../styles/bar_stacked_sbs.mplstyle')
 
 # Read data from CSV files
@@ -58,7 +60,7 @@ col2color = {col: color for col, color in zip(spa1_pivot.columns, colors)}
 nrows = 2
 ncols = 3
 # fig, axs = plt.subplots(nrows, ncols, figsize=(12 * 2, 2 * 12), sharex=False)
-fig = plt.figure(figsize=(12, 8), dpi=300)
+fig = plt.figure(figsize=(12, 8), dpi=DISPLAY_DIP)
 # fig.suptitle('CO2 Emissions by Region and Year', fontsize=16)
 gs = GridSpec(nrows=nrows, ncols=ncols * 2, figure=fig)
 axs = []

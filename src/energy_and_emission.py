@@ -10,6 +10,7 @@ sys.path.append("../")
 from constants import FIG_SIZE, DISPLAY_DIP
 from helpers.colors import set_stacked_area_colors
 
+
 plt.style.use('../styles/bar_chart_style.mplstyle')
 
 # out paths
