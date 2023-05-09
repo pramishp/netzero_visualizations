@@ -10,7 +10,8 @@ sys.path.append("../")
 from constants import FIG_SIZE, DISPLAY_DIP
 from helpers.colors import set_stacked_area_colors
 
-plt.style.use(r'../styles/bar_chart_style.mplstyle')
+
+plt.style.use('../styles/bar_chart_style.mplstyle')
 
 # out paths
 table_out_path = "../results/tables"
@@ -87,18 +88,15 @@ def draw_stacked_barchart(fuel, v1, v2, legends):
 
     # Add the percentage difference to the bar which is highest between two
     for i, (bar1, bar2) in enumerate(zip(bars1, bars2)):
-        if highest_value[i] == v2[i]:
-            ax.text(bar2.get_x() + bar2.get_width() / 2, highest_value[i] + 2,
-                    '{:.2f}%'.format(diff_percentages[i]), ha='center', va='bottom', fontsize=8)
-        else:
-            ax.text(bar1.get_x() + bar1.get_width() / 2, highest_value[i] + 2,
-                    '{:.2f}%'.format(diff_percentages[i]), ha='center', va='bottom', fontsize=8)
+                ax.text(bar2.get_x() + bar2.get_width() / 2, highest_value[i]+2,
+                    '{:.2f}%'.format(diff_percentages[i]), ha='center', va='bottom', fontsize=5)
+        
     # Add labels and titles
     # ax.set_xlabel('Fuel')
-    ax.set_ylabel('Energy (EJ)', fontweight='bold', fontsize= 10)
+    ax.set_ylabel('Energy (EJ)', fontweight='bold', fontsize=7)
  
-    ax.set_xticks(x)
-    ax.set_xticklabels(fuel, rotation=45, ha='right')
+    ax.set_xticks(x-0.15)
+    ax.set_xticklabels(fuel, rotation=90, fontweight='normal',fontsize='7')
     ax.legend((bars1[0], bars2[0]), legends)
 
     # Show the chart
