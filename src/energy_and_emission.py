@@ -10,15 +10,15 @@ sys.path.append("../")
 from constants import FIG_SIZE, DISPLAY_DIP
 from helpers.colors import set_stacked_area_colors
 
-plt.style.use('../../styles/bar_chart_style.mplstyle')
+plt.style.use(r'../styles/bar_chart_style.mplstyle')
 
 # out paths
 table_out_path = "../results/tables"
 if not os.path.exists(table_out_path):
     os.makedirs(table_out_path)
 # file paths
-file_2050 = "../../preprocessed_data/df2050_ene.csv"
-file_2020 = "../../preprocessed_data/df2020_ene.csv"
+file_2050 = "../preprocessed_data/df2050_ene.csv"
+file_2020 = "../preprocessed_data/df2020_ene.csv"
 
 # columns : 'Units', 'region', 'fuel', 'value'
 
