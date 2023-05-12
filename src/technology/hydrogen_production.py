@@ -4,7 +4,7 @@ import numpy as np
 import seaborn as sns
 
 # Read data from CSV files
-from constants import FIG_SIZE, DISPLAY_DIP
+from constants import FIG_SIZE_SINGLE, DISPLAY_DIP
 from helpers.colors import set_stacked_area_colors
 
 file1 = "../../preprocessed_data/technology/spa1_hydrogen_production_by_tech.csv"

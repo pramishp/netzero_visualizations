@@ -6,7 +6,7 @@ import seaborn as sns
 # Read data from CSV files
 import sys
 sys.path.append("../../")
-from constants import FIG_SIZE, DISPLAY_DIP
+from constants import FIG_SIZE_SINGLE, DISPLAY_DIP
 from helpers.colors import set_stacked_area_colors
 
 plt.style.use('../../styles/stacked_area.mplstyle')
@@ -15,7 +15,7 @@ file_ssp2 = "../../preprocessed_data/technology/ssp2_transport_energy_by_fuel.cs
 colors = ['thistle','yellow','skyblue','pink', 'palegreen']
 #sns.color_palette("Set3", 5)
 
-fig = plt.figure(figsize=FIG_SIZE, dpi=DISPLAY_DIP)
+fig = plt.figure(figsize=FIG_SIZE_SINGLE, dpi=DISPLAY_DIP)
 
 def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
     df1 = pd.read_csv(file_spa1, index_col=0)

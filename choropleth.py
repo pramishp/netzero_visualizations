@@ -43,7 +43,7 @@ def read_data():
 cross = read_data()
 
 # plot
-fig = plt.figure(figsize=FIG_SIZE, dpi=DISPLAY_DIP)
+fig = plt.figure(figsize=FIG_SIZE_SINGLE, dpi=DISPLAY_DIP)
 ax = plt.subplot(111)
 ax.margins(0.1)
 ax.set_ylim([-10073679.877525851 * 1.5, 21032155.87444515])
