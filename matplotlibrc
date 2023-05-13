@@ -7,12 +7,24 @@ font.family:   Helvetica
 #font.variant: normal
 #font.weight:  normal
 #font.stretch: normal
-font.size:    6.0
-legend.fontsize: 6.0
+font.size:    5.0
+markersize : 2
 
 #text.color: black
 
-
+##
+## LEGEND
+##
+legend.fontsize: small
+legend.handlelength: 1.25
+legend.handleheight: 1.25
+legend.borderpad: 1.0
+legend.fancybox:False
+legend.shadow:False
+legend.frameon:False
+legend.labelspacing:0.0
+legend.edgecolor:black
+legend.handletextpad: 0.4
 ## ***************************************************************************
 ## * AXES                                                                    *
 ## ***************************************************************************
@@ -29,9 +41,9 @@ axes.linewidth:     0.5    # edge line width
                              # text.color as default value
 #axes.titley:        None    # position title (axes relative units).  None implies auto
 #axes.titlepad:      6.0     # pad between axes and title in points
-#axes.labelsize:     medium  # font size of the x and y labels
-#axes.labelpad:      4.0     # space between label and axis
-axes.labelweight:   bold  # weight of the x and y labels
+axes.labelsize:     small  # font size of the x and y labels
+axes.labelpad:      1.5     # space between label and axis
+axes.labelweight:   normal  # weight of the x and y labels
 
 
 #axes.prop_cycle: cycler('color', ['1f77b4', 'ff7f0e', '2ca02c', 'd62728', '9467bd', '8c564b', 'e377c2', '7f7f7f', 'bcbd22', '17becf'])
@@ -55,14 +67,17 @@ axes.labelweight:   bold  # weight of the x and y labels
 ## ***************************************************************************
 
 
-xtick.labelsize:     medium  # font size of the tick labels
-ytick.labelsize:     medium  # font size of the tick labels
+xtick.labelsize:     small  # font size of the tick labels
+xtick.major.pad:     1.0
+ytick.major.pad:     1.0
+ytick.labelsize:     small  # font size of the tick labels
 
-xtick.major.size:    3.5     # major tick size in points
+xtick.major.size:    1.5     # major tick size in points
+xtick.major.width:   0.5     # major tick width in points
 
-ytick.major.size:    3.5     # major tick size in points
+ytick.major.size:    1.5     # major tick size in points
 #ytick.minor.size:    2       # minor tick size in points
-#ytick.major.width:   0.8     # major tick width in points
+ytick.major.width:   0.5     # major tick width in points
 #ytick.minor.width:   0.6     # minor tick width in points
 
 
@@ -72,7 +87,7 @@ ytick.major.size:    3.5     # major tick size in points
 ## See https://matplotlib.org/api/figure_api.html#matplotlib.figure.Figure
 #figure.titlesize:   large     # size of the figure title (``Figure.suptitle()``)
 #figure.titleweight: normal    # weight of the figure title
-#figure.labelsize:   large     # size of the figure label (``Figure.sup[x|y]label()``)
+figure.labelsize:   normal     # size of the figure label (``Figure.sup[x|y]label()``)
 #figure.labelweight: normal    # weight of the figure label
 #figure.figsize:     6.4, 4.8  # figure size in inches
 figure.dpi:         300       # figure dots per inch
@@ -85,10 +100,10 @@ figure.dpi:         300       # figure dots per inch
 #figure.raise_window : True    # Raise the GUI window to front when show() is called.
 
 ## The figure subplot parameters.  All dimensions are a fraction of the figure width and height.
-#figure.subplot.left:   0.125  # the left side of the subplots of the figure
-#figure.subplot.right:  0.9    # the right side of the subplots of the figure
-#figure.subplot.bottom: 0.11   # the bottom of the subplots of the figure
-#figure.subplot.top:    0.88   # the top of the subplots of the figure
+figure.subplot.left:   0.09   # the left side of the subplots of the figure
+figure.subplot.right:  0.95    # the right side of the subplots of the figure
+figure.subplot.bottom: 0.11   # the bottom of the subplots of the figure
+figure.subplot.top:    0.95   # the top of the subplots of the figure
 #figure.subplot.wspace: 0.2    # the amount of width reserved for space between subplots,
                                # expressed as a fraction of the average axis width
 #figure.subplot.hspace: 0.2    # the amount of height reserved for space between subplots,

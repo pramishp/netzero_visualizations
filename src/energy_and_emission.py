@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 sys.path.append("../")
-from constants import FIG_SIZE_SINGLE, DISPLAY_DIP
+from constants import FIG_SIZE_SINGLE, DISPLAY_DIP, FIG_SINGLE_WIDTH, mm2inch
 from helpers.colors import set_stacked_area_colors
 
 import os
@@ -70,7 +70,7 @@ def draw_stacked_barchart(fuel, v1, v2, v3, legends):
     x = np.arange(len(fuel))
 
     # Create the figure and axis
-    fig = plt.figure(figsize=FIG_SIZE_SINGLE)
+    fig = plt.figure(figsize=(FIG_SINGLE_WIDTH, mm2inch(60)))
     ax = plt.subplot(111)
     # set color
     # TODO: make one for bar chart, option 4 looks good

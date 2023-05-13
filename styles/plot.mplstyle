@@ -1,0 +1,21 @@
+
+#axes.spines.left:   True  # display axis spines
+#axes.spines.bottom: True
+axes.spines.top:    True
+axes.spines.right:  True
+
+lines.linewidth : 0.8
+
+ytick.major.size: 0.0
+xtick.major.size: 0.0
+
+legend.handlelength: 2
+legend.handleheight: 2
+legend.borderpad: 1.0
+legend.fancybox:False
+legend.shadow:False
+legend.frameon:False
+legend.columnspacing:3
+legend.edgecolor:black
+legend.handletextpad: 0.4
+legend.labelspacing: 2.0
