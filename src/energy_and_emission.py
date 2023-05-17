@@ -67,11 +67,11 @@ def draw_stacked_barchart(fuel, v1, v2, legends):
     # TODO: make one for bar chart, option 4 looks good
     set_stacked_area_colors(ax, option_id=2)
     # Plot the first set of bars
-    bars1 = ax.bar(x - 0.3, v1, edgecolor='black', width=0.3,color='pink',linewidth=0.75)
+    bars1 = ax.bar(x - 0.3, v1, edgecolor='black', width=0.3,color='darksalmon',linewidth=0.75)
     
 
     # Plot the second set of bars
-    bars2 = ax.bar(x, v2, edgecolor='black', width=0.3, color='skyblue',linewidth=0.75)
+    bars2 = ax.bar(x, v2, edgecolor='black', width=0.3, color='lightseagreen',linewidth=0.75)
     colors = ['#ADD8E6', '#FFFFE0']  # light blue and light yellow
     ax.set_prop_cycle(color=colors)
 
