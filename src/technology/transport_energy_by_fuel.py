@@ -65,8 +65,8 @@ def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
     ## add percentage of area coverage
     total_y = 0
     for i, coverage in enumerate(area_coverage_percentage):
-        y = cols[i][len(cols[i]) - 2]
-        x_pos, y_pos = 2092, total_y + y/1.5
+        y = cols[i][len(cols[i]) - 1]
+        x_pos, y_pos = 2107, total_y + y/1.5
         ax.text(x_pos, y_pos, f"{coverage:.1f}%", ha="center", va="top", fontsize='small')
         total_y += y
 
@@ -74,15 +74,15 @@ def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
     # draw plot at the uppermost surface of stacked area chart
     ax.plot(pt3['Year'], pt3['value'], color='seagreen', linewidth=0.5, marker='.', markersize=0.8, label='SSP2')
 
-    if subplot_num == 121:
+    if subplot_num == 122:
         ax.set_ylabel('Hydrogen (EJ)', )
         ax.set_xlabel('Year', )
 
-    elif subplot_num == 122:
+    elif subplot_num == 121:
         ax.set_ylabel('Electricity (EJ)', )
         ax.set_xlabel('Year', )
 
-    years = [2025, 2040, 2060,
+    years = [2020, 2040, 2060,
      2080, 2100]
 
     ax.set_xticks(years)
@@ -90,8 +90,8 @@ def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
 
 hydrogren = "H2"
 electricity = "Electricity"
-get_transport_energy_by_fuel_chart(hydrogren, 121)
-get_transport_energy_by_fuel_chart(electricity, 122)
+get_transport_energy_by_fuel_chart(hydrogren, 122)
+get_transport_energy_by_fuel_chart(electricity, 121)
 plt.legend(bbox_to_anchor=(-0.1, -0.30), loc='lower center', ncol=7)
 
 plt.subplots_adjust(bottom=0.25)

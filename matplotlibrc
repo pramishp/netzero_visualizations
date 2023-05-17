@@ -68,17 +68,19 @@ axes.labelweight:   normal  # weight of the x and y labels
 
 
 xtick.labelsize:     small  # font size of the tick labels
-xtick.major.pad:     1.0
+xtick.major.pad:     3.0
+xtick.minor.pad:     1.0
 ytick.major.pad:     1.0
 ytick.labelsize:     small  # font size of the tick labels
 
-xtick.major.size:    1.5     # major tick size in points
+xtick.major.size:    1     # major tick size in points
+xtick.minor.size:    small     # major tick size in points
 xtick.major.width:   0.5     # major tick width in points
 
-ytick.major.size:    1.5     # major tick size in points
+ytick.major.size:    1    # major tick size in points
 #ytick.minor.size:    2       # minor tick size in points
 ytick.major.width:   0.5     # major tick width in points
-#ytick.minor.width:   0.6     # minor tick width in points
+ytick.minor.width:   0.5     # minor tick width in points
 
 
 ## ***************************************************************************
