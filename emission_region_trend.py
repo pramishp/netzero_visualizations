@@ -27,7 +27,7 @@ cols = [df[col_name] for col_name in df.columns[1:]]
 labels = df.columns[1:]
 
 # start plotting
-fig = plt.figure(figsize=FIG_SIZE, dpi=DISPLAY_DIP)
+fig = plt.figure(figsize=FIG_SIZE_SINGLE, dpi=DISPLAY_DIP)
 ax = plt.subplot(111)
 # set color
 set_stacked_area_colors(ax, option_id=2)
