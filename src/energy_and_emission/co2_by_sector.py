@@ -6,13 +6,13 @@ import numpy as np
 import seaborn as sns
 from matplotlib.gridspec import GridSpec
 
-from constants import DISPLAY_DIP
+from constants import FIG_DOUBLE_WIDTH, mm2inch
 
-plt.style.use('../../styles/bar_stacked_sbs.mplstyle')
+plt.style.use('./styles/bar_stacked_sbs.mplstyle')
 
 # Read data from CSV files
-file_spa1 = "../../preprocessed_data/energy and emission/spa1_co2_by_sector.csv"
-file_ssp2 = "../../preprocessed_data/energy and emission/spa2_co2_by_sector.csv"
+file_spa1 = "./preprocessed_data/energy and emission/spa1_co2_by_sector.csv"
+file_ssp2 = "./preprocessed_data/energy and emission/spa2_co2_by_sector.csv"
 
 df1 = pd.read_csv(file_spa1, index_col=0)
 df1['region'] = df1['region'].replace('Africa_Western', 'Western Africa')
@@ -51,16 +51,18 @@ ssp2_pivot = df2.pivot_table(index=['region', 'Year'], columns='sector', values=
 
 #
 labels = [str(year) for year in years]
-regions = spa1_pivot.index.get_level_values(0).unique().tolist()
+# regions = spa1_pivot.index.get_level_values(0).unique().tolist()[::-1]
+regions = ['China', 'India', 'South Asia', 'Western Africa', 'Brazil']
 years = spa1_pivot.index.get_level_values(1).unique().tolist()
-colors =  ['steelblue','khaki','lightseagreen','darksalmon', 'palegreen'][
-         :len(spa1_pivot.columns)]
+colors =  ['steelblue','khaki','lightseagreen','darksalmon', 'palegreen'][:len(spa1_pivot.columns)]
 col2color = {col: color for col, color in zip(spa1_pivot.columns, colors)}
 
 nrows = 2
 ncols = 3
 # fig, axs = plt.subplots(nrows, ncols, figsize=(12 * 2, 2 * 12), sharex=False)
-fig = plt.figure(figsize=(12, 8), dpi=DISPLAY_DIP)
+
+fig = plt.figure(figsize=(FIG_DOUBLE_WIDTH, FIG_DOUBLE_WIDTH*0.5))
+
 # fig.suptitle('CO2 Emissions by Region and Year', fontsize=16)
 gs = GridSpec(nrows=nrows, ncols=ncols * 2, figure=fig)
 axs = []
@@ -69,10 +71,11 @@ axs = []
 #   | 4| 5|
 
 ax1 = fig.add_subplot(gs[0, 0:2])
-ax2 = fig.add_subplot(gs[0, 2:4], sharex=ax1)
-ax3 = fig.add_subplot(gs[0, 4:6], sharex=ax2)
-ax4 = fig.add_subplot(gs[1, 0:3])
-ax5 = fig.add_subplot(gs[1, 3:6])
+ax2 = fig.add_subplot(gs[0, 2:4])
+
+ax3 = fig.add_subplot(gs[1, 0:2])
+ax4 = fig.add_subplot(gs[1, 2:4])
+ax5 = fig.add_subplot(gs[1, 4:6])
 axs.append(ax1)
 axs.append(ax2)
 axs.append(ax3)
@@ -129,7 +132,7 @@ for i in range(len(axs)):
             ypos = rect.get_y() + height / 2.0
             ratio = abs(col1['values'][m] / sum_by_year1[m])
             if ratio > 0.13:
-                ax.text(xpos, ypos, '{:.1f}'.format(col1['values'][m]), ha='center', va='center', color='white',
+                ax.text(xpos, ypos, '{:.1f}'.format(col1['values'][m]), ha='center', va='center', color='black',
                         fontweight='normal', fontsize=5)
 
         for m, rect in enumerate(bar_props2):
@@ -138,7 +141,7 @@ for i in range(len(axs)):
             ypos = rect.get_y() + height / 2.0
             ratio = abs(col2['values'][m] / sum_by_year2[m])
             if ratio > 0.13:
-                ax.text(xpos, ypos, '{:.1f}'.format(col2['values'][m]), ha='center', va='center', color='white',
+                ax.text(xpos, ypos, '{:.1f}'.format(col2['values'][m]), ha='center', va='center', color='black',
                         fontweight='normal', fontsize=5)
 
     # Calculate the maximum value for the y-axis
@@ -159,10 +162,10 @@ for i in range(len(axs)):
 
     minor_labels = ['SSP2', 'SSP1'] * 3
     ax.set_xticks(xticks_minor, minor=True)
-    ax.set_xticklabels(minor_labels, minor=True, fontsize=5)
+    ax.set_xticklabels(minor_labels, minor=True, fontsize='small')
     if y_min < 0:
         ax.spines['bottom'].set_visible(False)
-        ax.axhline(y=0, color='black', linestyle='-', linewidth=2)
+        ax.axhline(y=0, color='black', linestyle='-', linewidth=0.5)
     ax.set_title(region)
 
     ax.set_ylabel('MTC CO2 (x1000)')
@@ -176,6 +179,6 @@ fig.legend([handles[i] for i in nlabels][::-1],
            [labels[i].title() for i in nlabels][::-1],
            loc='lower center', ncol=4,
            # bbox_to_anchor=(box),
-           fontsize=9,
+           # fontsize=9,
            frameon=False)
 plt.show()
