@@ -61,7 +61,9 @@ col2color = {col: color for col, color in zip(spa1_pivot.columns, colors)}
 nrows = 2
 ncols = 3
 # fig, axs = plt.subplots(nrows, ncols, figsize=(12 * 2, 2 * 12), sharex=False)
+
 fig = plt.figure(figsize=(FIG_DOUBLE_WIDTH, FIG_DOUBLE_WIDTH*0.5))
+
 # fig.suptitle('CO2 Emissions by Region and Year', fontsize=16)
 gs = GridSpec(nrows=nrows, ncols=ncols * 2, figure=fig)
 axs = []

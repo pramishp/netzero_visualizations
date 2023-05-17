@@ -9,10 +9,12 @@ sys.path.append("../")
 from constants import FIG_SIZE_SINGLE, DISPLAY_DIP, FIG_SINGLE_WIDTH, mm2inch
 from helpers.colors import set_stacked_area_colors
 
+
 import os
 
 
 plt.style.use('./styles/bar_chart_style.mplstyle')
+
 
 # out paths
 table_out_path = "./results/tables"
