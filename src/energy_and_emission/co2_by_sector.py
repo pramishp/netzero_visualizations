@@ -54,8 +54,7 @@ labels = [str(year) for year in years]
 # regions = spa1_pivot.index.get_level_values(0).unique().tolist()[::-1]
 regions = ['China', 'India', 'South Asia', 'Western Africa', 'Brazil']
 years = spa1_pivot.index.get_level_values(1).unique().tolist()
-colors = ['thistle', 'yellow', 'skyblue', 'pink', 'palegreen'][
-         :len(spa1_pivot.columns)]
+colors =  ['steelblue','khaki','lightseagreen','darksalmon', 'palegreen'][:len(spa1_pivot.columns)]
 col2color = {col: color for col, color in zip(spa1_pivot.columns, colors)}
 
 nrows = 2

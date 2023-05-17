@@ -79,6 +79,7 @@ def draw_stacked_barchart(fuel, v1, v2, v3, legends):
     set_stacked_area_colors(ax, option_id=2)
     width = 0.25
     # Plot the first set of bars
+
     bars1 = ax.bar(x - width, v1, edgecolor='black', width=width, color='pink', linewidth=0.75)
 
     # Plot the second set of bars
@@ -86,6 +87,7 @@ def draw_stacked_barchart(fuel, v1, v2, v3, legends):
     bars3 = ax.bar(x + width, v3, edgecolor='black', width=width, color='#9061BF', linewidth=0.75)
 
     colors = ['#ADD8E6', '#FFFFE0', '#27E630']  # light blue and light yellow
+
     ax.set_prop_cycle(color=colors)
 
     # Calculate the percentage difference between the two bars for each x label
