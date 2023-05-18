@@ -27,15 +27,14 @@ xtick.minor.visible : true  # Show the minor ticks in the x-axis
 
 # axes.linewidth: 1.5
 # lines.linewidth: 1.5
-#legend.handlelength: 2
-# legend.handleheight: 2
-# legend.borderpad: 1.0
+legend.handlelength: 2
+legend.handleheight: 2
 # legend.fancybox:False
 # legend.shadow:False
 # legend.frameon:False
 legend.columnspacing:3
 # legend.edgecolor:black
-# legend.handletextpad: 0.4
+legend.handletextpad: 0.4
 # legend.labelspacing: 2.0
 
 figure.subplot.hspace : 0.4
