@@ -1,27 +1,30 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Generate some data for the plot
-x = np.linspace(0, 10, 100)
-y1 = np.sin(x)
-y2 = np.cos(x)
+# Data for the bars
+categories = ['Category 1', 'Category 2', 'Category 3']
+values1 = [20, 30, 10]
+values2 = [40, 15, 25]
+values3 = [10, 35, 20]
 
-# Create the figure and axes
-fig, ax = plt.subplots()
+# Create an array for the x positions of the bars
+x = np.arange(len(categories))
 
-# Plot the two lines
-ax.plot(x, y1, label='Line 1')
-ax.plot(x, y2, label='Line 2')
+# Plot the bars
+plt.bar(x, values1, label='Value 1')
+plt.bar(x, values2, bottom=values1, label='Value 2')
+plt.bar(x, values3, bottom=np.add(values1, values2), label='Value 3')
 
-# Fill the area between the lines
-ax.fill_between(x, y1, y2, where=(y1 >= y2), interpolate=True, alpha=0.5, color='green')
-ax.fill_between(x, y1, y2, where=(y1 < y2), interpolate=True, alpha=0.5, color='red')
+# Add labels and title
+plt.xlabel('Categories')
+plt.ylabel('Values')
+plt.title('Stacked Bar Chart')
 
-# Add labels, legend, and grid
-ax.set_xlabel('X-axis')
-ax.set_ylabel('Y-axis')
-ax.legend()
-ax.grid(True)
+# Customize the x-axis tick labels
+plt.xticks(x, categories)
 
-# Show the plot
+# Add a legend
+plt.legend()
+
+# Display the plot
 plt.show()
