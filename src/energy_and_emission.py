@@ -141,27 +141,48 @@ def draw_stacked_barchart(categories, values_list, labels):
 
     # Data for the bars
     # Create an array for the x positions of the bars
-    x = [0.2, 0.4, 0.6]
+    x = [0.2, 0.4, 0.55]
 
     # Plot the bars
+    bar_props = []
     bottom_value = np.zeros((3,))
     for i, value in enumerate(values_list):
-        plt.bar(x, value, bottom=bottom_value, width=width, label=labels[i])
+        bars = plt.bar(x, value, bottom=bottom_value, width=width, label=labels[i])
         bottom_value += value
+        bar_props.append(bars)
+
+    # Add percentage labels
+    for i, bar in enumerate(bar_props):
+        col_val = values_list[i]
+        col_sum = col_val.sum()
+        for m, rect in enumerate(bar):
+            val = col_val[m]
+            height = rect.get_height()
+            xpos = rect.get_x() + rect.get_width() / 2.0
+            ypos = rect.get_y() + height / 2.0
+            # ratio = abs(col1['values'][m] / sum_by_year1[m])
+            if height > 10:
+                ax.text(xpos, ypos, '{:.1f}'.format(val), ha='center', va='center', color='black',
+                        fontweight='normal', fontsize=5)
+
+    # add 2050 label
+    ax.text(0.475, -35, '2050', ha='center', va='center', color='black',
+            fontweight='bold', fontsize=5)
+
+    # make 2020 bold
+    # Get the xtick labels
+    xtick_labels = plt.xticks()[1]
+    xtick_labels[0].set_weight('bold')
 
 
     # Add labels and title
-    plt.ylabel('Values')
+    plt.ylabel('Emission in Mt CO2')
     # Customize the x-axis tick labels
     plt.xticks(x, categories)
 
-    # Add a legend
-    plt.legend()
+    plt.legend(bbox_to_anchor=(1.4, 0.5), loc='center right', ncol=1)
+    plt.subplots_adjust(right=1 - 0.28)
 
-    # Display the plot
-    plt.legend(bbox_to_anchor=(0.5, -0.4), loc='lower center', ncol=5)
-
-    plt.subplots_adjust(bottom=0.28)
     plt.show()
 
 

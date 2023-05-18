@@ -154,6 +154,7 @@ for i in range(len(axs)):
     xtick_labels = labels
     ax.set_xticks(xticks)
     ax.set_xticklabels(labels)
+
     ## minor labels
     xticks_minor = np.zeros((len(years) * 2))
     xticks_minor[range(0, 6, 2)] = x_pos2
@@ -177,8 +178,6 @@ nlabels = list(range(0, len(handles), 2))
 # handle legend
 fig.legend([handles[i] for i in nlabels][::-1],
            [labels[i].title() for i in nlabels][::-1],
-           loc='lower center', ncol=4,
-           # bbox_to_anchor=(box),
-           # fontsize=9,
-           frameon=False)
+           loc='center right', ncol=1,
+           bbox_to_anchor=(0.79, 0.8))
 plt.show()
