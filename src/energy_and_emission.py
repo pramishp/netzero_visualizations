@@ -9,12 +9,9 @@ sys.path.append("../")
 from constants import FIG_SIZE_SINGLE, DISPLAY_DIP, FIG_SINGLE_WIDTH, mm2inch
 from helpers.colors import set_stacked_area_colors
 
-
 import os
 
-
 plt.style.use('./styles/bar_chart_style.mplstyle')
-
 
 # out paths
 table_out_path = "./results/tables"
@@ -33,12 +30,11 @@ df_2020 = pd.read_csv(file_2020)
 
 # aggregate value(sum) by fuel
 fuel_by_value_2050 = pd.pivot_table(df_2050, index=['fuel'], values=['value'], aggfunc=np.sum)
-fuel_by_value_2050.drop(index='j traditional biomass', inplace=True)
+# fuel_by_value_2050.drop(index='j traditional biomass', inplace=True)
 fuel_by_value_2050_ssp2 = pd.pivot_table(df_2050_ssp2, index=['fuel'], values=['value'], aggfunc=np.sum)
-fuel_by_value_2050_ssp2.drop(index='j traditional biomass', inplace=True)
+# fuel_by_value_2050_ssp2.drop(index='j traditional biomass', inplace=True)
 fuel_by_value_2020 = pd.pivot_table(df_2020, index=['fuel'], values=['value'], aggfunc=np.sum)
-fuel_by_value_2020.drop(index='j traditional biomass', inplace=True)
-
+# fuel_by_value_2020.drop(index='j traditional biomass', inplace=True)
 
 '''
 Sample output: 
@@ -62,11 +58,10 @@ def get_table():
         new_row = [fuel, contrib_2050, contrib_2020]
         df.loc[i] = new_row
 
-
     df.to_csv(join(table_out_path, 'energy_sources and their contrib in 2050, 2020.csv'))
 
 
-def draw_stacked_barchart(fuel, v1, v2, v3, legends):
+def draw_sbs_barchart(fuel, v1, v2, v3, legends):
     # v1: 2020, v2: 2050 ssp1, v3: 2050 ssp2
     # Set the X axis
     x = np.arange(len(fuel))
@@ -108,17 +103,17 @@ def draw_stacked_barchart(fuel, v1, v2, v3, legends):
 
     # Add the percentage difference to the bar which is highest between two
     for i, (bar1, bar2, bar3) in enumerate(zip(bars1, bars2, bars3)):
-                ax.text(bar2.get_x() + bar2.get_width() / 2 - width/2, highest_value_ssp2[i]+2,
-                    '{:.0f}%'.format(diff_percentages_ssp2[i]), ha='center', va='bottom', fontsize=4)
+        ax.text(bar2.get_x() + bar2.get_width() / 2 - width / 2, highest_value_ssp2[i] + 2,
+                '{:.0f}%'.format(diff_percentages_ssp2[i]), ha='center', va='bottom', fontsize=4)
 
-                ax.text(bar3.get_x() + bar2.get_width() / 2 + width/2, v3[i]+2,
-                            '{:.0f}%'.format(diff_percentages_ssp1[i]), ha='center', va='bottom', fontsize=4)
+        ax.text(bar3.get_x() + bar2.get_width() / 2 + width / 2, v3[i] + 2,
+                '{:.0f}%'.format(diff_percentages_ssp1[i]), ha='center', va='bottom', fontsize=4)
 
     # Add labels and titles
     # ax.set_xlabel('Fuel')
     ax.set_ylabel('Energy (EJ)')
- 
-    ax.set_xticks(x-0.15)
+
+    ax.set_xticks(x - 0.15)
     ax.set_xticklabels(fuel, rotation=90)
     ax.legend((bars1[0], bars2[0], bars3[0]), legends)
 
@@ -127,18 +122,57 @@ def draw_stacked_barchart(fuel, v1, v2, v3, legends):
     plt.show()
 
 
+def draw_stacked_barchart(categories, values_list, labels):
+    fig = plt.figure(figsize=(FIG_SINGLE_WIDTH, mm2inch(60)))
+    ax = plt.subplot(111)
+    # set color
+    # TODO: make one for bar chart, option 4 looks good
+    set_stacked_area_colors(ax, option_id=2)
+    width = 0.1
+
+    # colors = ['#ADD8E6', '#FFFFE0', '#27E630']  # light blue and light yellow
+    # ax.set_prop_cycle(color=colors)
+
+    # Data for the bars
+    # Create an array for the x positions of the bars
+    x = [0.2, 0.4, 0.6]
+
+    # Plot the bars
+    bottom_value = np.zeros((3,))
+    for i, value in enumerate(values_list):
+        plt.bar(x, value, bottom=bottom_value, width=width, label=labels[i])
+        bottom_value += value
+
+    # Add labels and title
+    plt.ylabel('Values')
+    # Customize the x-axis tick labels
+    plt.xticks(x, categories)
+
+    # Add a legend
+    plt.legend()
+
+    # Display the plot
+    plt.legend(bbox_to_anchor=(0.5, -0.4), loc='lower center', ncol=5)
+
+    plt.subplots_adjust(bottom=0.28)
+    plt.show()
+
+
 def draw_figure():
     # Create a sample data
-    fuel = pd.unique(fuel_by_value_2050.index)
+    fuels = pd.unique(fuel_by_value_2050.index)
     # fix labels
 
-    fuel = [name[2:].title() for name in fuel]
+    fuels = [name[2:].title() for name in fuels]
     values1 = fuel_by_value_2020['value']
     values2 = fuel_by_value_2050_ssp2['value']
     values3 = fuel_by_value_2050['value']
 
-    draw_stacked_barchart(fuel, values1, values2, values3, legends=('2020', 'SSP2', 'SSP1'))
+    # draw_sbs_barchart(fuels, values1, values2, values3, legends=('2020', 'SSP2', 'SSP1'))
+    categories = ['2020', 'BAU', 'OS']
+    values_list = np.vstack([values1, values2, values3]).T
+    draw_stacked_barchart(categories, values_list, fuels)
 
 
-#get_table()
+# get_table()
 draw_figure()
