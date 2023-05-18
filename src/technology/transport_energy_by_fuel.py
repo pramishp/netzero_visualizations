@@ -5,20 +5,22 @@ import seaborn as sns
 
 import sys
 
+from helpers.io import save
+
 sys.path.append("../../")
 from constants import FIG_SINGLE_WIDTH, mm2inch
 from helpers.colors import set_stacked_area_colors
 
 plt.style.use('./styles/stacked_area_sidebyside.mplstyle')
+
 file_spa1 = "./preprocessed_data/technology/spa1_transport_energy_by_fuel.csv"
 file_ssp2 = "./preprocessed_data/technology/ssp2_transport_energy_by_fuel.csv"
 colors = ['thistle', 'yellow', 'skyblue', 'pink', 'palegreen']
+
+
 # sns.color_palette("Set3", 5)
 
-fig = plt.figure(figsize=(FIG_SINGLE_WIDTH, mm2inch(50)))
-
-
-def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
+def get_transport_energy_by_fuel_chart(fuel_name, ax, xlable='Year', ylabel='', label=''):
     df1 = pd.read_csv(file_spa1, index_col=0)
     df1 = df1[df1['input'] == fuel_name]
     df1['region'].replace("Africa_Western", "Western Africa", inplace=True)
@@ -48,9 +50,8 @@ def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
 
     ## calcualte area coverage for each region
     total = pt2.sum(axis=0)[1:].sum()
-    area_coverage_percentage = [(sum / total)*100 for sum in pt2.sum(axis=0)[1:]]
+    area_coverage_percentage = [(sum / total) * 100 for sum in pt2.sum(axis=0)[1:]]
 
-    ax = plt.subplot(subplot_num)
     # set color
     set_stacked_area_colors(ax, option_id=2)
 
@@ -66,7 +67,8 @@ def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
     total_y = 0
     for i, coverage in enumerate(area_coverage_percentage):
         y = cols[i][len(cols[i]) - 1]
-        x_pos, y_pos = 2107, total_y + y/1.5
+        x_pos = 2108 if 'Hydrogen' in ylabel else 2110
+        y_pos = total_y + y / 1.5
         ax.text(x_pos, y_pos, f"{coverage:.1f}%", ha="center", va="top", fontsize='small')
         total_y += y
 
@@ -74,25 +76,26 @@ def get_transport_energy_by_fuel_chart(fuel_name, subplot_num):
     # draw plot at the uppermost surface of stacked area chart
     ax.plot(pt3['Year'], pt3['value'], color='seagreen', linewidth=0.5, marker='.', markersize=0.8, label='SSP2')
 
-    if subplot_num == 122:
-        ax.set_ylabel('Hydrogen (EJ)', )
-        ax.set_xlabel('Year', )
-
-    elif subplot_num == 121:
-        ax.set_ylabel('Electricity (EJ)', )
-        ax.set_xlabel('Year', )
-
-    years = [2020, 2040, 2060,
-     2080, 2100]
+    years = [2020, 2040, 2060, 2080, 2100]
 
     ax.set_xticks(years)
+
+    ax.set_ylabel(ylabel)
+    ax.set_xlabel(xlable)
+
+    # give label to subplot
+
+    ax.text(-0.15, 1.05, label, transform=ax.transAxes, fontsize='medium', fontweight='bold', va='top')
 
 
 hydrogren = "H2"
 electricity = "Electricity"
-get_transport_energy_by_fuel_chart(hydrogren, 122)
-get_transport_energy_by_fuel_chart(electricity, 121)
-plt.legend(bbox_to_anchor=(-0.1, -0.30), loc='lower center', ncol=7)
+_, axs = plt.subplots(1, 2, figsize=(FIG_SINGLE_WIDTH, mm2inch(45)))
+
+get_transport_energy_by_fuel_chart(hydrogren, axs[1], ylabel='Hydrogen (EJ)', label='b')
+get_transport_energy_by_fuel_chart(electricity, axs[0], ylabel='Electricity (EJ)', label='a')
+plt.legend(bbox_to_anchor=(-0.15, -0.35), loc='lower center', ncol=7)
 
 plt.subplots_adjust(bottom=0.25)
+# save('transport_energy_by_fuel')
 plt.show()
