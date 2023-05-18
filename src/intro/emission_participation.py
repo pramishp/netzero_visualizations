@@ -52,8 +52,8 @@ def plot():
     ax.spines['left'].set_bounds(low=-2000, high=12000)
     ax.spines['right'].set_bounds(low=-2000, high=12000)
 
-    ax.plot(lx, ly, color='gray')
-    ax.plot(x2, y2, label='no participation', color='orange')
+    ax.plot(lx, ly, color='dimgrey')
+    ax.plot(x2, y2, label='no participation', color='darkorange')
 
     # ax.fill_between(x2, y2 - 100 * spreading_factor, y2 + 100 * spreading_factor,
     #                 color='orange', alpha=0.2, edgecolor='none')
@@ -74,10 +74,10 @@ def plot():
     area = np.trapz(np.abs(y1_interpolated - y2_interpolated), x=x1_denser)
 
     ax.fill_between(x1_denser, y1_interpolated, y2_interpolated, where=(x1_denser <= 2084.3),
-                    color='blue', alpha=0.2, edgecolor='none')
+                    color='cadetblue', alpha=0.2, edgecolor='none')
 
-    ax.text(2056, 6000, f"Emissions Gap", fontsize=5, fontweight='bold')
-    ax.text(2056, 5000, f"  ({area/1000:.0f} Gt CO2)", fontsize=5, fontweight='bold')
+    ax.text(2056, 5700, f"Emissions Gap", fontsize=5, fontweight='bold')
+    ax.text(2056, 4000, f"  ({area/1000:.0f} Gt CO2)", fontsize=5, fontweight='bold')
 
     # add annotation
     # net zero at 2084.30
@@ -86,11 +86,11 @@ def plot():
     ax.scatter(net_zero_year, 0, marker='o', alpha=0.5, s=5, color='green')
     ax.scatter(2100, 3809.52 , marker='o', alpha=0.5, s=5, color='orange')
     # annotate a point on the plot with an arrow
-    ax.annotate(' ' * 40, xy=(net_zero_year, 0), xytext=(net_zero_year + 5, 100),
+    ax.annotate(' ' * 40, xy=(net_zero_year, 0), xytext=(net_zero_year + 5, 800),
                 rotation=45,
                 arrowprops=dict(facecolor='black',
                                 linewidth=0.5,
-                                arrowstyle='->,head_length=0.6,head_width=0.3')
+                                arrowstyle='->,head_length=0.3,head_width=0.3')
                 )
     ax.text(net_zero_year + 3, 700, "Net-Zero", fontsize=5, fontweight='bold')
 
