@@ -4,6 +4,7 @@ import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 sys.path.append("../")
 from constants import FIG_SIZE_SINGLE, DISPLAY_DIP, FIG_SINGLE_WIDTH, mm2inch
@@ -127,7 +128,12 @@ def draw_stacked_barchart(categories, values_list, labels):
     ax = plt.subplot(111)
     # set color
     # TODO: make one for bar chart, option 4 looks good
-    set_stacked_area_colors(ax, option_id=2)
+    def set_colors(colors, ax=None):
+        ax.set_prop_cycle('color', colors)
+    color_palette = sns.color_palette("Set3", 10)
+    set_colors(color_palette, ax)
+
+
     width = 0.1
 
     # colors = ['#ADD8E6', '#FFFFE0', '#27E630']  # light blue and light yellow
@@ -142,6 +148,7 @@ def draw_stacked_barchart(categories, values_list, labels):
     for i, value in enumerate(values_list):
         plt.bar(x, value, bottom=bottom_value, width=width, label=labels[i])
         bottom_value += value
+
 
     # Add labels and title
     plt.ylabel('Values')
