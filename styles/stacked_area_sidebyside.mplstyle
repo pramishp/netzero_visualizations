@@ -5,5 +5,7 @@
 axes.spines.top:    False
 axes.spines.right:  False
 
+figure.subplot.wspace: 0.3
+
 legend.columnspacing:2
 

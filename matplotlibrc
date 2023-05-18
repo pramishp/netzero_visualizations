@@ -2,12 +2,12 @@ Special text sizes can be defined
 ## relative to font.size, using the following values: xx-small, x-small,
 ## small, medium, large, x-large, xx-large, larger, or smaller
 
-font.family:   Helvetica
+font.family:   Arial
 #font.style:   normal
 #font.variant: normal
 #font.weight:  normal
 #font.stretch: normal
-font.size:    5.0
+font.size:    6.0
 markersize : 2
 
 #text.color: black
@@ -16,8 +16,8 @@ markersize : 2
 ## LEGEND
 ##
 legend.fontsize: small
-legend.handlelength: 1.25
-legend.handleheight: 1.25
+legend.handlelength: 0.8
+legend.handleheight: 0.8
 legend.borderpad: 1.0
 legend.fancybox:False
 legend.shadow:False
@@ -42,8 +42,7 @@ axes.linewidth:     0.5    # edge line width
 #axes.titley:        None    # position title (axes relative units).  None implies auto
 #axes.titlepad:      6.0     # pad between axes and title in points
 axes.labelsize:     small  # font size of the x and y labels
-axes.labelpad:      1.5     # space between label and axis
-axes.labelweight:   normal  # weight of the x and y labels
+axes.labelpad:      2     # space between label and axis
 
 
 #axes.prop_cycle: cycler('color', ['1f77b4', 'ff7f0e', '2ca02c', 'd62728', '9467bd', '8c564b', 'e377c2', '7f7f7f', 'bcbd22', '17becf'])
@@ -102,8 +101,8 @@ figure.dpi:         300       # figure dots per inch
 #figure.raise_window : True    # Raise the GUI window to front when show() is called.
 
 ## The figure subplot parameters.  All dimensions are a fraction of the figure width and height.
-figure.subplot.left:   0.09   # the left side of the subplots of the figure
-figure.subplot.right:  0.95    # the right side of the subplots of the figure
+figure.subplot.left:   0.07   # the left side of the subplots of the figure
+figure.subplot.right:  0.93    # the right side of the subplots of the figure
 figure.subplot.bottom: 0.11   # the bottom of the subplots of the figure
 figure.subplot.top:    0.95   # the top of the subplots of the figure
 #figure.subplot.wspace: 0.2    # the amount of width reserved for space between subplots,
