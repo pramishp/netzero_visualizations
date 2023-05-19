@@ -7,6 +7,7 @@ import seaborn as sns
 from matplotlib.gridspec import GridSpec
 
 from constants import FIG_DOUBLE_WIDTH, mm2inch
+from helpers.colors import set_colors
 
 plt.style.use('./styles/bar_stacked_sbs.mplstyle')
 
@@ -15,14 +16,14 @@ file_spa1 = "./preprocessed_data/energy and emission/spa1_co2_by_sector.csv"
 file_ssp2 = "./preprocessed_data/energy and emission/spa2_co2_by_sector.csv"
 
 df1 = pd.read_csv(file_spa1, index_col=0)
-df1['region'] = df1['region'].replace('Africa_Western', 'Western Africa')
+df1['region'] = df1['region'].replace('Africa_Western', 'West Africa')
 # df1 = df1[df1['region'] != "China"]
 # df1 = df1[df1['region'] != "India"]
 # df1 = df1[df1['sector'] != "building"]
 df1 = df1[df1['sector'] != "agriculture"]
 
 df2 = pd.read_csv(file_ssp2, index_col=0)
-df2['region'] = df2['region'].replace('Africa_Western', 'Western Africa')
+df2['region'] = df2['region'].replace('Africa_Western', 'West Africa')
 
 # df2 = df2[df2['region'] != "China"]
 # df2 = df2[df2['region'] != "India"]
@@ -32,7 +33,7 @@ df2 = df2[df2['sector'] != "agriculture"]
 regions = df1['region'].unique()
 sectors = df1['sector'].unique()
 # define color palette
-color_palette = sns.color_palette("pastel", len(sectors))
+
 
 years = [2030, 2050, 2080]
 # regions
@@ -52,9 +53,9 @@ ssp2_pivot = df2.pivot_table(index=['region', 'Year'], columns='sector', values=
 #
 labels = [str(year) for year in years]
 # regions = spa1_pivot.index.get_level_values(0).unique().tolist()[::-1]
-regions = ['China', 'India', 'South Asia', 'Western Africa', 'Brazil']
+regions = ['China', 'India', 'South Asia', 'West Africa', 'Brazil']
 years = spa1_pivot.index.get_level_values(1).unique().tolist()
-colors = ['steelblue', 'khaki', 'lightseagreen', 'darksalmon', 'palegreen'][:len(spa1_pivot.columns)]
+colors = ['#D9D9D9','#FFED6F','#FCCDE5','#CCEB'][:len(spa1_pivot.columns)]
 col2color = {col: color for col, color in zip(spa1_pivot.columns, colors)}
 
 nrows = 2
@@ -86,6 +87,11 @@ subplot_title = ['a', 'b', 'c', 'd', 'e']
 # create plot
 for i in range(len(axs)):
     ax = axs[i]
+
+    # set color
+    color_palette = sns.color_palette("Set3", 4)
+    set_colors(color_palette,ax)
+
     index = i
     if index == len(regions):
         ax.set_visible(False)
