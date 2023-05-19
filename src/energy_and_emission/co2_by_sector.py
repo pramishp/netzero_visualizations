@@ -7,7 +7,9 @@ import seaborn as sns
 from matplotlib.gridspec import GridSpec
 
 from constants import FIG_DOUBLE_WIDTH, mm2inch
+
 from helpers.colors import set_colors
+from helpers.io import save
 
 plt.style.use('./styles/bar_stacked_sbs.mplstyle')
 
@@ -214,4 +216,5 @@ fig.legend([handles[i] for i in nlabels][::-1],
            loc='center right', ncol=1,
            bbox_to_anchor=(0.8, 0.7))
 plt.tight_layout()
+# save('co2_by_sector')
 plt.show()
