@@ -150,6 +150,9 @@ def draw_stacked_barchart(categories, values_list, labels):
         bars = plt.bar(x, value, bottom=bottom_value, width=width, label=labels[i])
         bottom_value += value
         bar_props.append(bars)
+        for bar in bars:
+            # add edge to bar
+            pass
 
     # Add percentage labels
     for i, bar in enumerate(bar_props):
