@@ -54,14 +54,14 @@ labels = [str(year) for year in years]
 # regions = spa1_pivot.index.get_level_values(0).unique().tolist()[::-1]
 regions = ['China', 'India', 'South Asia', 'Western Africa', 'Brazil']
 years = spa1_pivot.index.get_level_values(1).unique().tolist()
-colors =  ['steelblue','khaki','lightseagreen','darksalmon', 'palegreen'][:len(spa1_pivot.columns)]
+colors = ['steelblue', 'khaki', 'lightseagreen', 'darksalmon', 'palegreen'][:len(spa1_pivot.columns)]
 col2color = {col: color for col, color in zip(spa1_pivot.columns, colors)}
 
 nrows = 2
 ncols = 3
 # fig, axs = plt.subplots(nrows, ncols, figsize=(12 * 2, 2 * 12), sharex=False)
 
-fig = plt.figure(figsize=(FIG_DOUBLE_WIDTH, FIG_DOUBLE_WIDTH*0.5))
+fig = plt.figure(figsize=(FIG_DOUBLE_WIDTH, FIG_DOUBLE_WIDTH * 0.5))
 
 # fig.suptitle('CO2 Emissions by Region and Year', fontsize=16)
 gs = GridSpec(nrows=nrows, ncols=ncols * 2, figure=fig)
@@ -82,6 +82,7 @@ axs.append(ax3)
 axs.append(ax4)
 axs.append(ax5)
 
+subplot_title = ['a', 'b', 'c', 'd', 'e']
 # create plot
 for i in range(len(axs)):
     ax = axs[i]
@@ -96,13 +97,13 @@ for i in range(len(axs)):
     cols2 = []
     for j, col1 in enumerate(spa1_pivot.columns):
         cols1.append(
-            {'label': col1, 'bottom': spa1_pivot.columns[:j], "values": spa1_pivot.loc[region][col1].values/1000})
+            {'label': col1, 'bottom': spa1_pivot.columns[:j], "values": spa1_pivot.loc[region][col1].values / 1000})
         cols2.append(
-            {'label': col1, 'bottom': ssp2_pivot.columns[:j], "values": ssp2_pivot.loc[region][col1].values/1000})
+            {'label': col1, 'bottom': ssp2_pivot.columns[:j], "values": ssp2_pivot.loc[region][col1].values / 1000})
 
     # generate x-axis positions for each set of bars
     bar_width = 0.25
-    x_pos2 = np.arange(len(years)) / 1.5 # division for controlling inter bar spaces in the x-axis
+    x_pos2 = np.arange(len(years)) / 1.5  # division for controlling inter bar spaces in the x-axis
     x_pos1 = [x + bar_width for x in x_pos2]
     bottom1 = np.zeros((len(years)))
     bottom1_min = np.zeros((len(years)))
@@ -153,15 +154,15 @@ for i in range(len(axs)):
     xticks = np.asarray(x_pos1)
     xtick_labels = labels
     ax.set_xticks(xticks)
-    ax.set_xticklabels(labels)
+    ax.set_xticklabels(labels, fontweight='bold')
 
     ## minor labels
     xticks_minor = np.zeros((len(years) * 2))
     xticks_minor[range(0, 6, 2)] = x_pos2
     xticks_minor[range(1, 6, 2)] = x_pos1
-    xticks_minor += + bar_width/2
+    xticks_minor += + bar_width / 2
 
-    minor_labels = ['SSP2', 'SSP1'] * 3
+    minor_labels = ['BAU', 'OS'] * 3
     ax.set_xticks(xticks_minor, minor=True)
     ax.set_xticklabels(minor_labels, minor=True, fontsize='small')
     if y_min < 0:
@@ -169,7 +170,33 @@ for i in range(len(axs)):
         ax.axhline(y=0, color='black', linestyle='-', linewidth=0.5)
     ax.set_title(region)
 
-    ax.set_ylabel('MTC CO2 (x1000)')
+    ax.set_ylabel('Emission (Gt CO2)', fontweight='bold')
+
+    # give subplot a,b, c, d labels
+    title = subplot_title[i]
+    ax.text(-0.1, 1.1, title, transform=ax.transAxes, fontsize=7, fontweight='bold', va='top')
+
+    # set x-axis label position for Brazil
+    brazil_index = len(axs) - 1
+    if i == brazil_index:
+        tick_labels = ax.get_xticklabels()
+        minor_tick_labels = ax.get_xticklabels(minor=True)
+        for i, label in enumerate(tick_labels[:-1]):
+            x, y = label.get_position()
+            label.set_position((x, 0.15))
+            # set minor
+            index = i * 2
+            m1, m2 = minor_tick_labels[index], minor_tick_labels[index + 1]
+            mx1, my1 = m1.get_position()
+            mx2, my2 = m2.get_position()
+            m1.set_position((mx1, 0.15))
+            m2.set_position((mx2, 0.15))
+
+        # set SSP2 for 2080
+        m = minor_tick_labels[-2]
+        mx, my = m.get_position()
+        m.set_position((mx, 0.15))
+
 
 # Add custom legend
 handles, labels = axs[0].get_legend_handles_labels()
@@ -179,5 +206,6 @@ nlabels = list(range(0, len(handles), 2))
 fig.legend([handles[i] for i in nlabels][::-1],
            [labels[i].title() for i in nlabels][::-1],
            loc='center right', ncol=1,
-           bbox_to_anchor=(0.79, 0.8))
+           bbox_to_anchor=(0.8, 0.7))
+plt.tight_layout()
 plt.show()
