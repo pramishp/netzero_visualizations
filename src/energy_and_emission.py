@@ -4,6 +4,7 @@ import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 sys.path.append("../")
 from constants import FIG_SIZE_SINGLE, DISPLAY_DIP, FIG_SINGLE_WIDTH, mm2inch
@@ -127,7 +128,12 @@ def draw_stacked_barchart(categories, values_list, labels):
     ax = plt.subplot(111)
     # set color
     # TODO: make one for bar chart, option 4 looks good
-    set_stacked_area_colors(ax, option_id=2)
+    def set_colors(colors, ax=None):
+        ax.set_prop_cycle('color', colors)
+    color_palette = sns.color_palette("Set3", 10)
+    set_colors(color_palette, ax)
+
+
     width = 0.1
 
     # colors = ['#ADD8E6', '#FFFFE0', '#27E630']  # light blue and light yellow
@@ -141,9 +147,12 @@ def draw_stacked_barchart(categories, values_list, labels):
     bar_props = []
     bottom_value = np.zeros((3,))
     for i, value in enumerate(values_list):
-        bars = plt.bar(x, value, bottom=bottom_value, width=width, label=labels[i])
+        bars = plt.bar(x, value, bottom=bottom_value, width=width,edgecolor='black',linewidth=0.2, label=labels[i])
         bottom_value += value
         bar_props.append(bars)
+        for bar in bars:
+            # add edge to bar
+            pass
 
     # Add percentage labels
     for i, bar in enumerate(bar_props):
@@ -167,6 +176,7 @@ def draw_stacked_barchart(categories, values_list, labels):
     # Get the xtick labels
     xtick_labels = plt.xticks()[1]
     xtick_labels[0].set_weight('bold')
+
 
     # Add labels and title
     plt.ylabel('Emission in Mt CO2')
