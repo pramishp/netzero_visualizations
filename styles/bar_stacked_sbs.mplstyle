@@ -30,7 +30,7 @@ xtick.minor.visible : true  # Show the minor ticks in the x-axis
 # axes.linewidth: 1.5
 # lines.linewidth: 1.5
 
-patch.linewidth: 0.5
+patch.linewidth: 0.2
 
 legend.handlelength: 1.5
 legend.handleheight: 1.5
