@@ -147,7 +147,7 @@ def draw_stacked_barchart(categories, values_list, labels):
     bar_props = []
     bottom_value = np.zeros((3,))
     for i, value in enumerate(values_list):
-        bars = plt.bar(x, value, bottom=bottom_value, width=width, label=labels[i])
+        bars = plt.bar(x, value, bottom=bottom_value, width=width,edgecolor='black',linewidth=0.2, label=labels[i])
         bottom_value += value
         bar_props.append(bars)
         for bar in bars:
