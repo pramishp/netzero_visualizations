@@ -12,4 +12,9 @@ ytick.direction: out
 
 legend.columnspacing:1
 
-legend.labelspacing: 2
+legend.labelspacing: 3
+
+figure.subplot.left:   0.1   # the left side of the subplots of the figure
+figure.subplot.right:  0.9    # the right side of the subplots of the figure
+figure.subplot.bottom: 0.11   # the bottom of the subplots of the figure
+figure.subplot.top:    0.9   # the top of the subplots of the figure
