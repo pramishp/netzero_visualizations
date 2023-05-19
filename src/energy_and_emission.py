@@ -6,6 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from helpers.io import save
+
 sys.path.append("../")
 from constants import FIG_SIZE_SINGLE, DISPLAY_DIP, FIG_SINGLE_WIDTH, mm2inch
 from helpers.colors import set_stacked_area_colors
@@ -186,6 +188,7 @@ def draw_stacked_barchart(categories, values_list, labels):
     plt.legend(bbox_to_anchor=(1.4, 0.5), loc='center right', ncol=1)
     plt.subplots_adjust(right=1 - 0.28)
 
+    save('energy_n_emission')
     plt.show()
 
 

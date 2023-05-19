@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
 from constants import FIG_SINGLE_WIDTH, mm2inch
+from helpers.io import save
 
 sys.path.append("../")
 
@@ -99,6 +100,7 @@ def plot():
 
     plt.legend()
     plt.tight_layout()
+    save('emission_participation')
     plt.show()
 
 plot()
