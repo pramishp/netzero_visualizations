@@ -169,8 +169,9 @@ for i in range(len(axs)):
     ax.set_ylim([min(0, y_min), y_max * 1.2])
     xticks = np.asarray(x_pos1)
     xtick_labels = labels
+    xtick_labels = [r"\textbf{" + label + "}" for label in labels]
     ax.set_xticks(xticks)
-    ax.set_xticklabels(labels, fontweight='bold')
+    ax.set_xticklabels(xtick_labels)
 
     ## minor labels
     xticks_minor = np.zeros((len(years) * 2))
@@ -184,13 +185,13 @@ for i in range(len(axs)):
     if y_min < 0:
         ax.spines['bottom'].set_visible(False)
         ax.axhline(y=0, color='black', linestyle='-', linewidth=0.5)
-    ax.set_title(region)
+    ax.set_title(r"\textbf{"+f"{region}" + "}")
 
     ax.set_ylabel('Emissions (Gt CO$_{2}$)')
 
     # give subplot a,b, c, d labels
     title = subplot_title[i]
-    ax.text(-0.1, 1.1, title, transform=ax.transAxes, fontsize=7, fontweight='bold', va='top')
+    ax.text(-0.1, 1.1, r"\textbf{"+f"{title}" + "}", transform=ax.transAxes, fontsize=7, fontweight='bold', va='top')
 
     # set x-axis label position for Brazil
     brazil_index = len(axs) - 1
