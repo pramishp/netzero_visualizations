@@ -1,12 +1,11 @@
-import copy
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from matplotlib.gridspec import GridSpec
+import matplotlib.colors as mcolors
 
-from constants import FIG_DOUBLE_WIDTH, mm2inch
+from constants import FIG_DOUBLE_WIDTH
 
 from helpers.colors import set_colors
 from helpers.io import save
@@ -57,8 +56,13 @@ labels = [str(year) for year in years]
 # regions = spa1_pivot.index.get_level_values(0).unique().tolist()[::-1]
 regions = ['China', 'India', 'South Asia', 'West Africa', 'Brazil']
 years = spa1_pivot.index.get_level_values(1).unique().tolist()
-colors = ['#D9D9D9','#FFED6F','#FCCDE5','#CCEB'][:len(spa1_pivot.columns)]
-col2color = {col: color for col, color in zip(spa1_pivot.columns, colors)}
+
+# set colors
+# Define the standard colors
+standard_colors = list(sns.color_palette("Pastel1", 4))[:len(spa1_pivot.columns)][::-1]
+# Map sectors to colors
+col2color = {col: color for col, color in zip(spa1_pivot.columns, standard_colors)}
+
 
 nrows = 2
 ncols = 3
@@ -135,21 +139,25 @@ for i in range(len(axs)):
         bottom2_min += np.where(col2['values'] < 0, col2['values'], 0)
 
         # Add percentage labels
+
         for m, rect in enumerate(bar_props1):
             height = rect.get_height()
             xpos = rect.get_x() + rect.get_width() / 2.0
             ypos = rect.get_y() + height / 2.0
-            ratio = abs(col1['values'][m] / sum_by_year1[m])
-            if ratio > 0.13:
+            max_y = np.max(np.asarray([sum_by_year1, sum_by_year2]))
+            ratio = abs(height / max_y)
+            if abs(ratio) > 0.05:
                 ax.text(xpos, ypos, '{:.1f}'.format(col1['values'][m]), ha='center', va='center', color='black',
                         fontweight='normal', fontsize=5)
+
 
         for m, rect in enumerate(bar_props2):
             height = rect.get_height()
             xpos = rect.get_x() + rect.get_width() / 2.0
             ypos = rect.get_y() + height / 2.0
-            ratio = abs(col2['values'][m] / sum_by_year2[m])
-            if ratio > 0.13:
+            max_y = np.max(np.asarray([sum_by_year1, sum_by_year2]))
+            ratio = abs(height / max_y)
+            if ratio > 0.05:
                 ax.text(xpos, ypos, '{:.1f}'.format(col2['values'][m]), ha='center', va='center', color='black',
                         fontweight='normal', fontsize=5)
 
@@ -178,7 +186,7 @@ for i in range(len(axs)):
         ax.axhline(y=0, color='black', linestyle='-', linewidth=0.5)
     ax.set_title(region)
 
-    ax.set_ylabel('Emission (Gt CO2)', fontweight='bold')
+    ax.set_ylabel('Emissions (Gt CO$_{2}$)')
 
     # give subplot a,b, c, d labels
     title = subplot_title[i]
@@ -216,5 +224,5 @@ fig.legend([handles[i] for i in nlabels][::-1],
            loc='center right', ncol=1,
            bbox_to_anchor=(0.8, 0.7))
 plt.tight_layout()
-# save('co2_by_sector')
+save('co2_by_sector')
 plt.show()

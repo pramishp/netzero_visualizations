@@ -78,7 +78,7 @@ def plot():
                     color='cadetblue', alpha=0.2, edgecolor='none')
 
     ax.text(2056, 5700, f"Emissions Gap", fontsize=5, fontweight='bold')
-    ax.text(2056, 4700, f"  ({area/1000:.0f} Gt CO2)", fontsize=5, fontweight='bold')
+    ax.text(2056, 4700, f"({area/1000:.0f}" + "Gt CO$_{2}$)", fontsize=5, fontweight='bold')
 
     # add annotation
     # net zero at 2084.30
@@ -96,7 +96,7 @@ def plot():
     ax.text(net_zero_year + 3, 700, "Net-Zero", fontsize=5, fontweight='bold')
 
     ax.set_xlabel('Year')
-    ax.set_ylabel('Emissions (Mt CO2)')
+    ax.set_ylabel('Emissions (Mt CO$_{2}$)')
 
     plt.legend()
     plt.tight_layout()

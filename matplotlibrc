@@ -11,6 +11,7 @@ font.size:    6.0
 markersize : 2
 
 #text.color: black
+text.usetex: true
 
 ##
 ## LEGEND

@@ -9,7 +9,7 @@ import seaborn as sns
 from helpers.io import save
 
 sys.path.append("../")
-from constants import FIG_SIZE_SINGLE, DISPLAY_DIP, FIG_SINGLE_WIDTH, mm2inch
+from constants import FIG_SINGLE_WIDTH, mm2inch
 from helpers.colors import set_stacked_area_colors
 
 import os
@@ -106,11 +106,11 @@ def draw_sbs_barchart(fuel, v1, v2, v3, legends):
 
     # Add the percentage difference to the bar which is highest between two
     for i, (bar1, bar2, bar3) in enumerate(zip(bars1, bars2, bars3)):
-        ax.text(bar2.get_x() + bar2.get_width() / 2 - width / 2, highest_value_ssp2[i] + 2,
-                '{:.0f}%'.format(diff_percentages_ssp2[i]), ha='center', va='bottom', fontsize=4)
+        ax.text(bar2.get_x() + bar2.get_width() / 2 - width / 2, highest_value_ssp2[i] + 1,
+                '{:.0f}%'.format(diff_percentages_ssp2[i]), ha='center', va='center', fontsize=4)
 
-        ax.text(bar3.get_x() + bar2.get_width() / 2 + width / 2, v3[i] + 2,
-                '{:.0f}%'.format(diff_percentages_ssp1[i]), ha='center', va='bottom', fontsize=4)
+        ax.text(bar3.get_x() + bar2.get_width() / 2 + width / 2, v3[i] + 1,
+                '{:.0f}%'.format(diff_percentages_ssp1[i]), ha='center', va='center', fontsize=4)
 
     # Add labels and titles
     # ax.set_xlabel('Fuel')
@@ -166,8 +166,8 @@ def draw_stacked_barchart(categories, values_list, labels):
             xpos = rect.get_x() + rect.get_width() / 2.0
             ypos = rect.get_y() + height / 2.0
             # ratio = abs(col1['values'][m] / sum_by_year1[m])
-            if height > 10:
-                ax.text(xpos, ypos, '{:.1f}'.format(val), ha='center', va='center', color='black',
+            if height > 12:
+                ax.text(xpos, ypos - 1, '{:.1f}'.format(val), ha='center', va='center', color='black',
                         fontweight='normal', fontsize=5)
 
     # add 2050 label
@@ -179,13 +179,12 @@ def draw_stacked_barchart(categories, values_list, labels):
     xtick_labels = plt.xticks()[1]
     xtick_labels[0].set_weight('bold')
 
-
     # Add labels and title
-    plt.ylabel('Emission in Mt CO2')
+    plt.ylabel('Energy consumption (EJ)')
     # Customize the x-axis tick labels
     plt.xticks(x, categories)
 
-    plt.legend(bbox_to_anchor=(1.4, 0.5), loc='center right', ncol=1)
+    plt.legend(bbox_to_anchor=(1.5, 0.5), loc='center right', ncol=1)
     plt.subplots_adjust(right=1 - 0.28)
 
     save('energy_n_emission')
