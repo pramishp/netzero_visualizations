@@ -12,6 +12,8 @@ from helpers.io import save
 
 plt.style.use('./styles/bar_stacked_sbs.mplstyle')
 
+# TODO: spa1 data inconsistent with previous data
+
 # Read data from CSV files
 file_spa1 = "./preprocessed_data/energy and emission/spa1_co2_by_sector.csv"
 file_ssp2 = "./preprocessed_data/energy and emission/spa2_co2_by_sector.csv"
@@ -63,7 +65,6 @@ standard_colors = list(sns.color_palette("Pastel1", 4))[:len(spa1_pivot.columns)
 # Map sectors to colors
 col2color = {col: color for col, color in zip(spa1_pivot.columns, standard_colors)}
 
-
 nrows = 2
 ncols = 3
 # fig, axs = plt.subplots(nrows, ncols, figsize=(12 * 2, 2 * 12), sharex=False)
@@ -96,7 +97,7 @@ for i in range(len(axs)):
 
     # set color
     color_palette = sns.color_palette("Set3", 4)
-    set_colors(color_palette,ax)
+    set_colors(color_palette, ax)
 
     index = i
     if index == len(regions):
@@ -147,9 +148,8 @@ for i in range(len(axs)):
             max_y = np.max(np.asarray([sum_by_year1, sum_by_year2]))
             ratio = abs(height / max_y)
             if abs(ratio) > 0.05:
-                ax.text(xpos, ypos, '{:.1f}'.format(col1['values'][m]), ha='center', va='center', color='black',
+                ax.text(xpos, ypos, '{:.2f}'.format(col1['values'][m]), ha='center', va='center', color='black',
                         fontweight='normal', fontsize=5)
-
 
         for m, rect in enumerate(bar_props2):
             height = rect.get_height()
@@ -158,7 +158,7 @@ for i in range(len(axs)):
             max_y = np.max(np.asarray([sum_by_year1, sum_by_year2]))
             ratio = abs(height / max_y)
             if ratio > 0.05:
-                ax.text(xpos, ypos, '{:.1f}'.format(col2['values'][m]), ha='center', va='center', color='black',
+                ax.text(xpos, ypos, '{:.2f}'.format(col2['values'][m]), ha='center', va='center', color='black',
                         fontweight='normal', fontsize=5)
 
     # Calculate the maximum value for the y-axis
@@ -169,9 +169,8 @@ for i in range(len(axs)):
     ax.set_ylim([min(0, y_min), y_max * 1.2])
     xticks = np.asarray(x_pos1)
     xtick_labels = labels
-    xtick_labels = [r"\textbf{" + label + "}" for label in labels]
     ax.set_xticks(xticks)
-    ax.set_xticklabels(xtick_labels)
+    ax.set_xticklabels(labels, fontweight='bold')
 
     ## minor labels
     xticks_minor = np.zeros((len(years) * 2))
@@ -185,13 +184,13 @@ for i in range(len(axs)):
     if y_min < 0:
         ax.spines['bottom'].set_visible(False)
         ax.axhline(y=0, color='black', linestyle='-', linewidth=0.5)
-    ax.set_title(r"\textbf{"+f"{region}" + "}")
+    ax.set_title(region)
 
     ax.set_ylabel('Emissions (Gt CO$_{2}$)')
 
     # give subplot a,b, c, d labels
     title = subplot_title[i]
-    ax.text(-0.1, 1.1, r"\textbf{"+f"{title}" + "}", transform=ax.transAxes, fontsize=7, fontweight='bold', va='top')
+    ax.text(-0.1, 1.1, title, transform=ax.transAxes, fontsize=7, fontweight='bold', va='top')
 
     # set x-axis label position for Brazil
     brazil_index = len(axs) - 1
@@ -213,7 +212,6 @@ for i in range(len(axs)):
         m = minor_tick_labels[-2]
         mx, my = m.get_position()
         m.set_position((mx, 0.15))
-
 
 # Add custom legend
 handles, labels = axs[0].get_legend_handles_labels()

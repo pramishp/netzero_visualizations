@@ -40,13 +40,15 @@ x2, y2 = df_no_part.index.values, df_no_part['value'].values
 
 def plot():
     spreading_factor = 3
+    net_zero_year = 2083
+
     # create a new figure
     fig = plt.figure(figsize=(FIG_SINGLE_WIDTH, mm2inch(60)))
 
     # add a new subplot to the figure
     ax = fig.add_subplot(111)
     ax.axhline(y=0, color='gray', linestyle='--', linewidth=0.5)
-    ax.axhline(y=3809.52, color='gray', linestyle='--', linewidth=0.5)
+    ax.axhline(y=y2[-1], color='gray', linestyle='--', linewidth=0.5)
     # ax.grid(axis='y')
     ax.spines['bottom'].set_position(('data', -2000))
     ax.spines['top'].set_position(('data', 12000))
@@ -74,18 +76,17 @@ def plot():
     # calculate area
     area = np.trapz(np.abs(y1_interpolated - y2_interpolated), x=x1_denser)
 
-    ax.fill_between(x1_denser, y1_interpolated, y2_interpolated, where=(x1_denser <= 2084.3),
+    ax.fill_between(x1_denser, y1_interpolated, y2_interpolated, where=(x1_denser <= net_zero_year),
                     color='cadetblue', alpha=0.2, edgecolor='none')
 
-    ax.text(2056, 5700, f"Emissions Gap", fontsize=5, fontweight='bold')
-    ax.text(2056, 4700, f"({area/1000:.0f}" + "Gt CO$_{2}$)", fontsize=5, fontweight='bold')
+    ax.text(2056, 5700+1000, f"Emissions Gap", fontsize=5, fontweight='bold')
+    ax.text(2056, 4700+1000, f"({area/1000:.0f}" + "Gt CO$_{2}$)", fontsize=5, fontweight='bold')
 
     # add annotation
     # net zero at 2084.30
-    net_zero_year = 2084.3
 
     ax.scatter(net_zero_year, 0, marker='o', alpha=0.5, s=5, color='green')
-    ax.scatter(2100, 3809.52 , marker='o', alpha=0.5, s=5, color='orange')
+    ax.scatter(2100, y2[-1], marker='o', alpha=0.5, s=5, color='orange')
     # annotate a point on the plot with an arrow
     ax.annotate(' ' * 40, xy=(net_zero_year, 0), xytext=(net_zero_year + 5, 800),
                 rotation=45,

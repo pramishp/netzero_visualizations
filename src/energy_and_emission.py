@@ -184,7 +184,17 @@ def draw_stacked_barchart(categories, values_list, labels):
     # Customize the x-axis tick labels
     plt.xticks(x, categories)
 
-    plt.legend(bbox_to_anchor=(1.5, 0.5), loc='center right', ncol=1)
+    # render reverse legend
+    # Get the legend handles and labels
+    handles, labels = ax.get_legend_handles_labels()
+
+    # Reverse the order of handles and labels
+    handles = handles[::-1]
+    labels = labels[::-1]
+
+    # Create the reversed legend
+    plt.legend(handles, labels, bbox_to_anchor=(1.4, 0.5), loc='center right', ncol=1)
+
     plt.subplots_adjust(right=1 - 0.28)
 
     save('energy_n_emission')
