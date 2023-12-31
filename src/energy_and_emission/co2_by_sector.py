@@ -20,23 +20,21 @@ file_ssp2 = "./preprocessed_data/energy and emission/spa2_co2_by_sector.csv"
 
 df1 = pd.read_csv(file_spa1, index_col=0)
 df1['region'] = df1['region'].replace('Africa_Western', 'West Africa')
-# df1 = df1[df1['region'] != "China"]
-# df1 = df1[df1['region'] != "India"]
-# df1 = df1[df1['sector'] != "building"]
-df1 = df1[df1['sector'] != "agriculture"]
 
 df2 = pd.read_csv(file_ssp2, index_col=0)
 df2['region'] = df2['region'].replace('Africa_Western', 'West Africa')
 
-# df2 = df2[df2['region'] != "China"]
-# df2 = df2[df2['region'] != "India"]
-# df2 = df2[df2['sector'] != "building"]
-df2 = df2[df2['sector'] != "agriculture"]
+
+# filter sector with low emissions
+ignore_sectors = ['csp_backup', 'district heat', 'agriculture', 'refined liquids', 'delivered biomass', '']
+
+for sector in ignore_sectors:
+    df1 = df1[df1['sector'] != sector]
+    df2 = df2[df2['sector'] != sector]
 
 regions = df1['region'].unique()
 sectors = df1['sector'].unique()
 # define color palette
-
 
 years = [2030, 2050, 2080]
 # regions
@@ -61,7 +59,7 @@ years = spa1_pivot.index.get_level_values(1).unique().tolist()
 
 # set colors
 # Define the standard colors
-standard_colors = list(sns.color_palette("Pastel1", 4))[:len(spa1_pivot.columns)][::-1]
+standard_colors = list(sns.color_palette("Pastel1", len(sectors)))[:len(spa1_pivot.columns)][::-1]
 # Map sectors to colors
 col2color = {col: color for col, color in zip(spa1_pivot.columns, standard_colors)}
 
@@ -146,6 +144,8 @@ for i in range(len(axs)):
             xpos = rect.get_x() + rect.get_width() / 2.0
             ypos = rect.get_y() + height / 2.0
             max_y = np.max(np.asarray([sum_by_year1, sum_by_year2]))
+            if region == 'China':
+                height = height * 0.8
             ratio = abs(height / max_y)
             if abs(ratio) > 0.05:
                 ax.text(xpos, ypos, '{:.2f}'.format(col1['values'][m]), ha='center', va='center', color='black',
@@ -186,7 +186,7 @@ for i in range(len(axs)):
         ax.axhline(y=0, color='black', linestyle='-', linewidth=0.5)
     ax.set_title(region)
 
-    ax.set_ylabel('Emissions (Gt CO$_{2}$)')
+    ax.set_ylabel('Emissions (GTC)')
 
     # give subplot a,b, c, d labels
     title = subplot_title[i]
@@ -199,19 +199,19 @@ for i in range(len(axs)):
         minor_tick_labels = ax.get_xticklabels(minor=True)
         for i, label in enumerate(tick_labels[:-1]):
             x, y = label.get_position()
-            label.set_position((x, 0.15))
+            label.set_position((x, 0.20))
             # set minor
             index = i * 2
             m1, m2 = minor_tick_labels[index], minor_tick_labels[index + 1]
             mx1, my1 = m1.get_position()
             mx2, my2 = m2.get_position()
-            m1.set_position((mx1, 0.15))
-            m2.set_position((mx2, 0.15))
+            m1.set_position((mx1, 0.20))
+            m2.set_position((mx2, 0.20))
 
         # set SSP2 for 2080
         m = minor_tick_labels[-2]
         mx, my = m.get_position()
-        m.set_position((mx, 0.15))
+        m.set_position((mx, 0.20))
 
 # Add custom legend
 handles, labels = axs[0].get_legend_handles_labels()
@@ -220,8 +220,9 @@ nlabels = list(range(0, len(handles), 2))
 # handle legend
 fig.legend([handles[i] for i in nlabels][::-1],
            [labels[i].title() for i in nlabels][::-1],
-           loc='center right', ncol=1,
-           bbox_to_anchor=(0.8, 0.7))
+           loc='center right', ncol=2,
+           bbox_to_anchor=(0.9, 0.75))
+
 plt.tight_layout()
 save('co2_by_sector')
 plt.show()

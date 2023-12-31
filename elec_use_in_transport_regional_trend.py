@@ -1,14 +1,10 @@
 import math
-
-import numpy as np
-
-import helpers  # sets gpu backend
+import helpers
 import matplotlib.pyplot as plt
 import pandas as pd
-
+import numpy as np
 import matplotlib.transforms as transforms
 
-# local imports
 from helpers.colors import set_stacked_area_colors
 from helpers.io import save
 from constants import *
@@ -16,17 +12,19 @@ from constants import *
 plt.style.use('./styles/stacked_area.mplstyle')
 
 
-def get_data():
-    df = pd.read_csv("./data/emission_by_sector.csv", index_col=0, header=None).T
-    df.reset_index(drop=True, inplace=True)
-    df.sort_values(['Year'])
-    return df
+def read_data():
+    df = pd.read_csv('./preprocessed_data/technology/spa1_transport_energy_by_fuel.csv', index_col=0)
+    df = df[df['input'] == 'Electricity']
+    data = pd.pivot_table(df, index='Year', columns='region', values='value', aggfunc=np.sum)
+    data.reset_index(inplace=True)
+    return data
 
 
-df = get_data()
+df = read_data()
 cols = [df[col_name] for col_name in df.columns[1:]]
 labels = df.columns[1:]
 
+# start plotting
 fig = plt.figure(figsize=FIG_SIZE_SINGLE, dpi=DISPLAY_DIP)
 ax = plt.subplot(111)
 # set color
@@ -42,9 +40,9 @@ plt.ylabel('GHG emission (Gt CO2 eq/yr)')
 # draw vertical lines
 trans = transforms.blended_transform_factory(ax.transData, ax.transAxes)
 
-ax.set_ylim([0, 70])
+# ax.set_ylim([0, 70])
 # ax.margins(x=0.08)
-ax.set_xlim(right=2025)
+# ax.set_xlim(right=2025)
 
 
 def annotate_change(year, prev_year):
@@ -93,17 +91,18 @@ def add_labels(year):
             total_y - y / 4,  # y control
             str(percentage) + "%",
             ha="left",
-            va="top"
+            va="top",
+            fontsize=6
         )
 
 
 for i, year in enumerate(df['Year']):
-    interval = 10  # in years
+    interval = 20  # in years
     if year % interval == 0:
         vertical_line(year, interval)
         add_labels(year)
         # %change
-        if i != 0:
+        if i > 3:
             annotate_change(year, year - interval)
 
     if i == len(df) - 1 and year % interval != 0:
@@ -111,28 +110,20 @@ for i, year in enumerate(df['Year']):
         annotate_change(year, year - (year % interval))
 
 # handle legend
-
-# horizontal bottom legend
-# box = ax.get_position()
-# ax.set_position([box.x0, box.y0 + 0.05,
+box = ax.get_position()
+# ax.set_position([box.x0, box.y0,
 #                  box.width, box.height])
-# ax.legend(loc='lower center',
-#           bbox_to_anchor=(0.5, -0.2),
-#           ncol=len(cols)
-#           )
 
-# vertical right legend
-handles, labels = ax.get_legend_handles_labels()
-
-x, y = trans.transform([2019, 50])
-boxx, boxy = ax.transAxes.inverted().transform([x, y])
 # reverse the legend order and adjust position of legend
+handles, labels = ax.get_legend_handles_labels()
+x, y = trans.transform([2019, 60])
+boxx, boxy = ax.transAxes.inverted().transform([x, y])
 ax.legend(handles[::-1], labels[::-1],
           loc='center left',
-          bbox_to_anchor=(boxx, 0.5),
+          bbox_to_anchor=(boxx, 0.4),
           ncol=1,
-          fontsize=7,
+          fontsize=5,
           )
 
-save('emission_sector_trend')
+save('elec_use_in_transport_regional_trend')
 plt.show(block=True)

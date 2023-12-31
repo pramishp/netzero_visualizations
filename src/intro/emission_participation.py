@@ -56,12 +56,12 @@ def plot():
     ax.spines['right'].set_bounds(low=-2000, high=12000)
 
     ax.plot(lx, ly, color='dimgrey')
-    ax.plot(x2, y2, label='No involvement', color='darkorange')
+    ax.plot(x2, y2, label='Limited engagement', color='darkorange')
 
     # ax.fill_between(x2, y2 - 100 * spreading_factor, y2 + 100 * spreading_factor,
     #                 color='orange', alpha=0.2, edgecolor='none')
 
-    ax.plot(x1, y1, color='green', label='Involvement')
+    ax.plot(x1, y1, color='green', label='Active engagement')
     # ax.fill_between(x1, y1 - 100 * spreading_factor, y1 + 100 * spreading_factor,
     #                 color='green', alpha=0.2, edgecolor='none')
 
@@ -80,7 +80,7 @@ def plot():
                     color='cadetblue', alpha=0.2, edgecolor='none')
 
     ax.text(2056, 5700+1000, f"Emissions Gap", fontsize=5, fontweight='bold')
-    ax.text(2056, 4700+1000, f"({area/1000:.0f}" + "Gt CO$_{2}$)", fontsize=5, fontweight='bold')
+    ax.text(2056, 4700+1000, f"({area/1000:.0f}" + " GTC)", fontsize=5, fontweight='bold')
 
     # add annotation
     # net zero at 2084.30
@@ -97,7 +97,7 @@ def plot():
     ax.text(net_zero_year + 3, 700, "Net-Zero", fontsize=5, fontweight='bold')
 
     ax.set_xlabel('Year')
-    ax.set_ylabel('Emissions (Mt CO$_{2}$)')
+    ax.set_ylabel('Emissions (MTC)')
 
     plt.legend()
     plt.tight_layout()

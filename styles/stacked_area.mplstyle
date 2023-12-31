@@ -7,26 +7,26 @@ axes.spines.right:  False
 
 text.usetex: False
 font.size: 7
-font: arial
+#font: arial
 legend.fontsize: 7
 font.weight: normal
-xlabel.fontweight: bold
+#xlabel.fontweight: bold
 xtick.direction: out
 ytick.direction: out
-xtick.major.size: 5.0
-ytick.major.size: 5.0
-axes.linewidth: 1.5
-lines.linewidth: 1.5
-legend.handlelength: 1.5
-legend.handleheight: 1.5
+xtick.major.size: 1.0
+ytick.major.size: 1.0
+axes.linewidth: 0.5
+lines.linewidth: 1
+legend.handlelength: 1
+legend.handleheight: 1
 legend.borderpad: 1.0
 legend.fancybox:False
 legend.shadow:False
 legend.frameon:False
 legend.columnspacing:3
-legend.labelspacing:0.0
+#legend.labelspacing:0.0
 legend.edgecolor:black
 legend.handletextpad: 0.4
 legend.labelspacing: 1.5
-legend.fontweight=false
+#legend.fontweight=false
 

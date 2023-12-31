@@ -174,10 +174,14 @@ def draw_stacked_barchart(categories, values_list, labels):
     ax.text(0.475, -35, '2050', ha='center', va='center', color='black',
             fontweight='bold', fontsize=5)
 
+    # add 2020 label
+    ax.text(0.2, -35, '2020', ha='center', va='center', color='black',
+            fontweight='bold', fontsize=5)
+
     # make 2020 bold
     # Get the xtick labels
     xtick_labels = plt.xticks()[1]
-    xtick_labels[0].set_weight('bold')
+    # xtick_labels[0].set_weight('bold')
 
     # Add labels and title
     plt.ylabel('Energy consumption (EJ)')
@@ -197,9 +201,6 @@ def draw_stacked_barchart(categories, values_list, labels):
 
     plt.subplots_adjust(right=1 - 0.28)
 
-    save('energy_n_emission')
-    plt.show()
-
 
 def draw_figure():
     # Create a sample data
@@ -212,10 +213,12 @@ def draw_figure():
     values3 = fuel_by_value_2050['value']
 
     # draw_sbs_barchart(fuels, values1, values2, values3, legends=('2020', 'SSP2', 'SSP1'))
-    categories = ['2020', 'BAU', 'OS']
+    categories = ['BAU', 'BAU', 'OS']
     values_list = np.vstack([values1, values2, values3]).T
     draw_stacked_barchart(categories, values_list, fuels)
 
 
 # get_table()
 draw_figure()
+save('energy_n_emission')
+plt.show()

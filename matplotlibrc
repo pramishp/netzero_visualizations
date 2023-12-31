@@ -1,4 +1,4 @@
-Special text sizes can be defined
+## Special text sizes can be defined
 ## relative to font.size, using the following values: xx-small, x-small,
 ## small, medium, large, x-large, xx-large, larger, or smaller
 
@@ -8,7 +8,7 @@ font.family:   Arial
 #font.weight:  normal
 #font.stretch: normal
 font.size:    6.0
-markersize : 2
+#markersize : 2
 
 #text.color: black
 text.usetex: false
@@ -74,8 +74,9 @@ ytick.major.pad:     1.0
 ytick.labelsize:     small  # font size of the tick labels
 
 xtick.major.size:    1     # major tick size in points
-xtick.minor.size:    small     # major tick size in points
+#xtick.minor.size:    small     # major tick size in points
 xtick.major.width:   0.5     # major tick width in points
+
 
 ytick.major.size:    1    # major tick size in points
 #ytick.minor.size:    2       # minor tick size in points
@@ -89,7 +90,7 @@ ytick.minor.width:   0.5     # minor tick width in points
 ## See https://matplotlib.org/api/figure_api.html#matplotlib.figure.Figure
 #figure.titlesize:   large     # size of the figure title (``Figure.suptitle()``)
 #figure.titleweight: normal    # weight of the figure title
-figure.labelsize:   normal     # size of the figure label (``Figure.sup[x|y]label()``)
+#figure.labelsize:   normal     # size of the figure label (``Figure.sup[x|y]label()``)
 #figure.labelweight: normal    # weight of the figure label
 #figure.figsize:     6.4, 4.8  # figure size in inches
 figure.dpi:         300       # figure dots per inch
