@@ -97,5 +97,5 @@ get_transport_energy_by_fuel_chart(electricity, axs[0], ylabel='Electricity (EJ)
 plt.legend(bbox_to_anchor=(-0.15, -0.35), loc='lower center', ncol=7)
 
 plt.subplots_adjust(bottom=0.25)
-# save('transport_energy_by_fuel')
+save('transport_energy_by_fuel')
 plt.show()

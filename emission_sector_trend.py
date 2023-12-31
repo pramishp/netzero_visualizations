@@ -13,7 +13,7 @@ from helpers.colors import set_stacked_area_colors
 from helpers.io import save
 from constants import *
 
-plt.style.use('../styles/stacked_area.mplstyle')
+plt.style.use('./styles/stacked_area.mplstyle')
 
 
 def get_data():

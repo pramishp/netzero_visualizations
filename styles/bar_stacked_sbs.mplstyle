@@ -41,6 +41,6 @@ legend.labelspacing: 2.0
 figure.subplot.hspace : 0.4
 figure.subplot.wspace : 0.8
 
-# axes.titlepad: 10
+axes.titlepad: -7
 axes.titlesize : 6
-# axes.titleweight: bold
+axes.titleweight: bold
