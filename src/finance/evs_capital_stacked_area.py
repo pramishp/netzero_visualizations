@@ -17,7 +17,7 @@ from constants import *
 plt.style.use('./styles/stacked_area.mplstyle')
 
 data = pd.read_csv(
-    '/Users/pramish/Desktop/Codes/netzero/Visualization/preprocessed_data/finance/capital/ssp1_developing_capital_investment_evs.csv')
+    '/Users/pramish/Desktop/Codes/netzero/net-zero-codes/Visualization/preprocessed_data/finance/capital/ssp1_developing_capital_investment_evs.csv')
 
 data = data[data['Year'] > 2000]
 # factor inflation
@@ -42,7 +42,7 @@ ax.stackplot(df['Year'], *cols,
              linewidth=0.3
              )
 plt.xlabel('Year',  fontsize=5)
-plt.ylabel('Investment required (2023 million $)', fontsize=5)
+plt.ylabel('Investment required (2023 $/GJ)', fontsize=5)
 
 # draw vertical lines
 trans = transforms.blended_transform_factory(ax.transData, ax.transAxes)

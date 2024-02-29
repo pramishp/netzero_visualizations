@@ -81,7 +81,6 @@ def plot_bar(ax):
                 '{:1.0f}'.format(p.get_width()) if p.get_width() > 1 else '{:1.3f}'.format(p.get_width()),
                 ha='left', va='center', fontsize='4')
 
-
     # add `a` label
     ax.text(-0.15, 1.05, 'a', transform=ax.transAxes, fontsize='medium', fontweight='bold', va='top')
 
